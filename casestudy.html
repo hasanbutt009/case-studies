@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study: Hong Kong Legal RAG System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- 
+    Infographic Narrative Plan:
+    1.  Header & Quick Wins: Hook the user with the biggest outcomes (Funding, Clients, Accuracy, Cost Savings).
+    2.  The Challenge: Set the stage with the client's problem (5,000-page bilingual PDF) and the 3 core technical hurdles.
+    3.  Our Approach (Process Flow): Visualize the 4-step custom pipeline we built, from data extraction to the final agent.
+    4.  Key Optimizations: Deep dive into the 2 main SDK bottlenecks (Memory, Input Limit) and our specific solutions (Cosmos DB, Custom Chunking).
+    5.  The Results (Data Viz): Use charts and stats to showcase the "before vs. after" metrics from the case study table.
+    6.  Tech Stack: Conclude by listing the key technologies used.
+    7.  Footer & CTA: A final summary and call to action.
+    -->
+    
+    <!-- 
+    Visualization Choices:
+    - Quick Wins: Goal(Inform), Choice(Single Big Number), Method(HTML/Tailwind). Justification: High-impact, immediate stats. (NO SVG).
+    - The 3 Challenges: Goal(Organize), Choice(List/Cards), Method(HTML/Tailwind Grid). Justification: Clearly segments the problems. (NO SVG).
+    - Our Approach (Process Flow): Goal(Organize), Choice(Flow Chart), Method(Structured HTML/Tailwind with flexbox and text arrows). Justification: Clearly shows the 4-step process without SVG/Mermaid JS. (NO SVG, NO MERMAID JS).
+    - Key Optimizations: Goal(Compare), Choice(Diagram/List), Method(HTML/Tailwind 2-column grid). Justification: Simple side-by-side comparison of problem vs. solution. (NO SVG).
+    - Result 1 (Accuracy): Goal(Inform), Choice(Donut Chart), Method(Chart.js/Canvas). Justification: Excellent for showing a high proportional value (95%). (NO SVG).
+    - Result 2 (Cost Savings): Goal(Inform), Choice(Donut Chart), Method(Chart.js/Canvas). Justification: Clearly visualizes the 40% part-to-whole saving. (NO SVG).
+    - Result 3 (Time-to-Answer): Goal(Compare), Choice(Bar Chart), Method(Chart.js/Canvas). Justification: Best for comparing two vastly different numerical values (Hours vs. Seconds). (NO SVG).
+    - Result 4 (Client Acquisition): Goal(Inform), Choice(Bar Chart), Method(Chart.js/Canvas). Justification: Simple, clear representation of a single count (10). (NO SVG).
+    - Result 5 (Seed Funding): Goal(Inform), Choice(Single Big Number), Method(HTML/Tailwind). Justification: A single stat, best as text. (NO SVG).
+    - Tech Stack: Goal(Organize), Choice(List), Method(HTML/Tailwind "pills"). Justification: Modern, scannable list. (NO SVG).
+    -->
+    
+    <!-- 
+    Confirmation: NEITHER Mermaid JS NOR SVG were used in this file. 
+    All visualizations are created using Chart.js/Canvas or structured HTML/CSS with Tailwind.
+    -->
+
+    <!-- Chosen Color Palette Name: Professional & Vibrant Tech -->
+    
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 320px;
+        max-height: 350px;
+      }
+      @media (max-width: 640px) {
+        .chart-container {
+          height: 280px;
+          max-height: 300px;
+        }
+      }
+      .stat-card {
+        background-color: #FFFFFF;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+      .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+      .flow-step {
+        background-color: #FFFFFF;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        padding: 1.5rem;
+        text-align: center;
+        border: 1px solid #E5E7EB;
+      }
+      .flow-arrow {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 1rem;
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: #008DA8;
+      }
+      .tech-pill {
+        display: inline-block;
+        background-color: #E5E7EB;
+        color: #374151;
+        border-radius: 9999px;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin: 0.25rem;
+      }
+    </style>
+</head>
+<body class="bg-[#F8F9FA] text-[#212529]">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <header class="text-center my-8 md:my-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-[#0052CC] mb-4">Building a Robust, Cost-Effective RAG System</h1>
+            <p class="text-xl md:text-2xl text-[#212529]">A Case Study on the Hong Kong Legal Laws AI</p>
+        </header>
+
+        <section id="quick-win" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-12">
+            <div class="stat-card border-t-4 border-[#28A745]">
+                <div class="text-5xl font-extrabold text-[#28A745] mb-2">$500k</div>
+                <div class="text-lg font-semibold text-[#374151]">Seed Funding Secured</div>
+            </div>
+            <div class="stat-card border-t-4 border-[#0052CC]">
+                <div class="text-5xl font-extrabold text-[#0052CC] mb-2">10+</div>
+                <div class="text-lg font-semibold text-[#374151]">First Paying Clients</div>
+            </div>
+            <div class="stat-card border-t-4 border-[#008DA8]">
+                <div class="text-5xl font-extrabold text-[#008DA8] mb-2">95%+</div>
+                <div class="text-lg font-semibold text-[#374151]">Legal Query Accuracy</div>
+            </div>
+            <div class="stat-card border-t-4 border-[#FD7E14]">
+                <div class="text-5xl font-extrabold text-[#FD7E14] mb-2">40%</div>
+                <div class="text-lg font-semibold text-[#374151]">API Cost Reduction</div>
+            </div>
+        </section>
+
+        <section id="challenge" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">The Challenge</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                A legal-tech startup needed to transform a vast, 5,000-page bilingual (English & Chinese) PDF of Hong Kong's laws into an intelligent, accurate, and user-friendly AI assistant. We faced three core technical hurdles.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#FD7E14]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FD7E14]">1. Bilingual Data Noise</h3>
+                    <p class="text-gray-600">Extracting and structuring coherent English legal text from a mixed-language document was essential for accurate embeddings and to prevent retrieval noise.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#FD7E14]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FD7E14]">2. SDK Bottlenecks</h3>
+                    <p class="text-gray-600">The local Azure SDK lacked built-in memory management and had a 250k character input limit, requiring custom logic for conversational context and handling large queries.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#FD7E14]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FD7E14]">3. Legal-Grade Accuracy</h3>
+                    <p class="text-gray-600">Answers had to be near-perfect. Relying only on the static PDF was risky, necessitating a way to integrate real-time external information safely.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="solution" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Our Approach: A Custom 4-Step Pipeline</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                We engineered a robust, end-to-end RAG system by pre-processing the data for precision and building custom logic to overcome SDK limitations, ensuring scalability and cost-effectiveness.
+            </p>
+            <div class="flex flex-col md:flex-row md:items-stretch justify-between gap-4">
+                <div class="flow-step flex-1 flex flex-col justify-center">
+                    <div class="text-base font-bold text-[#0052CC] mb-2">STEP 1</div>
+                    <h3 class="text-xl font-bold mb-2">Data Pre-Processing</h3>
+                    <p class="text-gray-600 text-sm">Extracted text with PyMuPDF, removed all Chinese content via an LLM, and generated precise embeddings with `text-embedding-3-large` into Azure AI Search.</p>
+                </div>
+                
+                <div class="flow-arrow hidden md:flex">→</div>
+                <div class="flow-arrow md:hidden text-center text-3xl font-bold text-[#008DA8] my-2">▼</div>
+
+                <div class="flow-step flex-1 flex flex-col justify-center">
+                    <div class="text-base font-bold text-[#0052CC] mb-2">STEP 2</div>
+                    <h3 class="text-xl font-bold mb-2">Custom Memory</h3>
+                    <p class="text-gray-600 text-sm">Used Azure Cosmos DB for session storage. An LLM function summarizes chat history, passing concise context to reduce token use and cost.</p>
+                </div>
+
+                <div class="flow-arrow hidden md:flex">→</div>
+                <div class="flow-arrow md:hidden text-center text-3xl font-bold text-[#008DA8] my-2">▼</div>
+
+                <div class="flow-step flex-1 flex flex-col justify-center">
+                    <div class="text-base font-bold text-[#0052CC] mb-2">STEP 3</div>
+                    <h3 class="text-xl font-bold mb-2">Large Input Handling</h3>
+                    <p class="text-gray-600 text-sm">Custom Python function splits queries >250k chars, makes sequential API calls, and re-assembles the response, ensuring no data loss.</p>
+                </div>
+
+                <div class="flow-arrow hidden md:flex">→</div>
+                <div class="flow-arrow md:hidden text-center text-3xl font-bold text-[#008DA8] my-2">▼</div>
+
+                <div class="flow-step flex-1 flex flex-col justify-center">
+                    <div class="text-base font-bold text-[#0052CC] mb-2">STEP 4</div>
+                    <h3 class="text-xl font-bold mb-2">Agent & Tooling</h3>
+                    <p class="text-gray-600 text-sm">Exposed the system via an Azure AI Agent with a professional prompt and integrated Bing Search for real-time, accurate answers.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="optimization" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Solving Key SDK Bottlenecks</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                Standard tools weren't enough. We built custom solutions for the two biggest technical challenges, turning limitations into strengths.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-2xl font-bold mb-4 text-center">Challenge: Session Memory</h3>
+                    <div class="border-t pt-4">
+                        <h4 class="text-lg font-semibold text-[#FD7E14]">Problem:</h4>
+                        <p class="text-gray-600 mb-4">The local SDK had no built-in memory, risking stateless, repetitive, and high-cost conversations as history grew.</p>
+                        <h4 class="text-lg font-semibold text-[#28A745]">Our Solution:</h4>
+                        <p class="text-gray-600">Used Azure Cosmos DB for scalable session storage, paired with an LLM summarizer to pass optimized context. This preserved conversation flow while reducing API costs by 40%.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-2xl font-bold mb-4 text-center">Challenge: 250k Character Limit</h3>
+                    <div class="border-t pt-4">
+                        <h4 class="text-lg font-semibold text-[#FD7E14]">Problem:</h4>
+                        <p class="text-gray-600 mb-4">Complex legal queries could easily exceed the 250k character input limit, leading to errors or truncated, inaccurate answers.</p>
+                        <h4 class="text-lg font-semibold text-[#28A745]">Our Solution:</h4>
+                        <p class="text-gray-600">A custom Python function intelligently chunks large inputs, processes them in sequence, and re-aggregates the final response, guaranteeing no data loss for even the most complex queries.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="results" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">The Results: Fueling Growth & Funding</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                The optimized RAG system became the core asset that validated the client's business model, attracting clients and securing significant seed funding.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="stat-card p-4">
+                    <h3 class="text-xl font-bold mb-2 text-center">Legal Query Accuracy</h3>
+                    <p class="text-gray-600 text-center text-sm mb-4">The system achieved 95%+ accuracy, a critical benchmark for professional legal use.</p>
+                    <div class="chart-container">
+                        <canvas id="accuracyChart"></canvas>
+                    </div>
+                </div>
+                <div class="stat-card p-4">
+                    <h3 class="text-xl font-bold mb-2 text-center">LLM API Cost Savings</h3>
+                    <p class="text-gray-600 text-center text-sm mb-4">Our custom memory summarizer directly reduced predicted API costs by 40%.</p>
+                    <div class="chart-container">
+                        <canvas id="costChart"></canvas>
+                    </div>
+                </div>
+                <div class="stat-card p-4">
+                    <h3 class="text-xl font-bold mb-2 text-center">Time-to-Answer</h3>
+                    <p class="text-gray-600 text-center text-sm mb-4">Reduced research time from hours of manual searching to under 10 seconds.</p>
+                    <div class="chart-container">
+                        <canvas id="timeChart"></canvas>
+                    </div>
+                </div>
+                <div class="stat-card p-4">
+                    <h3 class="text-xl font-bold mb-2 text-center">Client Acquisition</h3>
+                    <p class="text-gray-600 text-center text-sm mb-4">The high-performing product directly led to securing the first 10 paying clients.</p>
+                    <div class="chart-container">
+                        <canvas id="clientChart"></canvas>
+                    </div>
+                </div>
+                <div class="stat-card p-4 lg:col-span-2 flex flex-col justify-center items-center bg-[#0052CC] text-white">
+                    <h3 class="text-2xl font-bold mb-2 text-center">Secured Seed Funding</h3>
+                    <p class="text-center text-lg mb-4 opacity-90">The system's reliability and scalability were key to validating the business model, leading to:</p>
+                    <div class="text-6xl font-extrabold">$500,000</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tech-stack" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Technology Stack</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                We used a robust, scalable, and cost-efficient stack primarily built on the Azure ecosystem to ensure seamless deployment and management.
+            </p>
+            <div class="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto">
+                <span class="tech-pill">Azure AI Foundry</span>
+                <span class="tech-pill">Azure AI Search</span>
+                <span class="tech-pill">Azure Cosmos DB</span>
+                <span class="tech-pill">Azure Web App</span>
+                <span class="tech-pill">Python & Azure SDK</span>
+                <span class="tech-pill">OpenAI text-embedding-3-large</span>
+                <span class="tech-pill">PyMuPDF</span>
+                <span class="tech-pill">Bing Search API</span>
+                <span class="tech-pill">Chart.js</span>
+                <span class="tech-pill">Tailwind CSS</span>
+            </div>
+        </section>
+
+        <footer class="text-center my-12 pt-8 border-t">
+            <h3 class="text-2xl font-bold mb-4">From Static PDF to Funded Product</h3>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-6">
+                This project showcases how strategic, custom-built logic transforms off-the-shelf tools into a high-growth business asset. The system we delivered became the core technology that secured the client's funding and market entry.
+            </p>
+            <a href="#" class="inline-block bg-[#0052CC] text-white font-bold py-3 px-8 rounded-lg text-lg shadow-lg hover:bg-[#0041A3] transition-colors">
+                Get in Touch
+            </a>
+        </footer>
+
+    </div>
+
+    <script>
+        (function() {
+            const chartColors = {
+                blue: '#0052CC',
+                teal: '#008DA8',
+                green: '#28A745',
+                orange: '#FD7E14',
+                gray: '#E5E7EB'
+            };
+
+            const tooltipCallback = {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            }
+                        }
+                    },
+                    legend: {
+                        labels: {
+                            font: {
+                                family: 'Inter',
+                                size: 12
+                            }
+                        }
+                    }
+                },
+                maintainAspectRatio: false,
+            };
+
+            const accuracyCtx = document.getElementById('accuracyChart');
+            if (accuracyCtx) {
+                new Chart(accuracyCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Accurate', 'Other'],
+                        datasets: [{
+                            data: [95.2, 4.8],
+                            backgroundColor: [chartColors.green, chartColors.gray],
+                            borderWidth: 0,
+                        }]
+                    },
+                    options: { ...tooltipCallback }
+                });
+            }
+
+            const costCtx = document.getElementById('costChart');
+            if (costCtx) {
+                new Chart(costCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Cost Saved', ['Remaining', 'Cost']],
+                        datasets: [{
+                            data: [40, 60],
+                            backgroundColor: [chartColors.green, chartColors.blue],
+                            borderWidth: 0,
+                        }]
+                    },
+                    options: { ...tooltipCallback }
+                });
+            }
+            
+            const timeCtx = document.getElementById('timeChart');
+            if (timeCtx) {
+                new Chart(timeCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: [['Manual', 'Search'], ['RAG', 'System']],
+                        datasets: [{
+                            label: 'Time in Seconds (Logarithmic Scale)',
+                            data: [7200, 10],
+                            backgroundColor: [chartColors.orange, chartColors.green],
+                        }]
+                    },
+                    options: {
+                        ...tooltipCallback,
+                        scales: {
+                            y: {
+                                type: 'logarithmic',
+                                title: {
+                                    display: true,
+                                    text: 'Time in Seconds (Log Scale)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            const clientCtx = document.getElementById('clientChart');
+            if (clientCtx) {
+                new Chart(clientCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: [['New Paying', 'Clients']],
+                        datasets: [{
+                            label: 'Clients',
+                            data: [10],
+                            backgroundColor: [chartColors.blue],
+                            maxBarThickness: 100
+                        }]
+                    },
+                    options: { 
+                        ...tooltipCallback,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+
+        })();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study: ShopVerse Migration to AWS with ECS & Terraform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- 
+    Infographic Narrative Plan:
+    1.  Header & Quick Wins: Hook the user with the biggest outcomes (Latency, Cost Savings, Uptime, Traffic Handling).
+    2.  The Challenge: Set the stage with the client's old system problems (Scaling, Manual Operations, Outages).
+    3.  Solution Options: Compare the 3 options considered using a concise table or list.
+    4.  Our Approach (Process Flow): Visualize the migration steps and the key IaC decision (Terraform).
+    5.  The Results (Data Viz): Use charts and stats to showcase the "before vs. after" metrics (Latency, Cost, Uptime, MTTR).
+    6.  Tech Stack: Conclude by listing the core technologies and their 'Why.'
+    7.  Footer & CTA: Final summary.
+    -->
+    
+    <!-- 
+    Visualization Choices:
+    - Quick Wins: Goal(Inform), Choice(Single Big Number), Method(HTML/Tailwind). Justification: High-impact, immediate stats. (NO SVG).
+    - The 4 Challenges: Goal(Organize), Choice(List/Cards), Method(HTML/Tailwind Grid). Justification: Segments the core problems. (NO SVG).
+    - Solution Comparison: Goal(Compare), Choice(Table/List), Method(HTML/Tailwind Grid/Table). Justification: Clearly contrasts the three options considered. (NO SVG).
+    - Migration Flow: Goal(Organize), Choice(Flow Chart), Method(Structured HTML/Tailwind with flexbox and text arrows). Justification: Clearly shows the 5-step process without SVG/Mermaid JS. (NO SVG, NO MERMAID JS).
+    - Result 1 (Latency): Goal(Change), Choice(Line Chart), Method(Chart.js/Canvas). Justification: Excellent for showing trend improvement over time. (NO SVG).
+    - Result 2 (MTTR): Goal(Compare), Choice(Bar Chart), Method(Chart.js/Canvas). Justification: Best for comparing the large change in two values (90 vs 15 minutes). (NO SVG).
+    - Result 3 (Costs): Goal(Change), Choice(Bar Chart), Method(Chart.js/Canvas). Justification: Clearly shows the decrease over the 6-month period. (NO SVG).
+    - Final Uptime: Goal(Inform), Choice(Single Big Number), Method(HTML/Tailwind). Justification: Highest impact for a core goal. (NO SVG).
+    - Tech Stack: Goal(Organize), Choice(List), Method(HTML/Tailwind "pills"). Justification: Modern, scannable list. (NO SVG).
+    -->
+    
+    <!-- 
+    Confirmation: NEITHER Mermaid JS NOR SVG were used in this file. 
+    All visualizations are created using Chart.js/Canvas or structured HTML/CSS with Tailwind.
+    -->
+
+    <!-- Chosen Color Palette Name: Professional & Vibrant Tech (Reusing previous palette for consistency) -->
+    
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 650px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 320px;
+        max-height: 350px;
+      }
+      @media (max-width: 640px) {
+        .chart-container {
+          height: 280px;
+          max-height: 300px;
+        }
+      }
+      .stat-card {
+        background-color: #FFFFFF;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+      .flow-step {
+        background-color: #FFFFFF;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        padding: 1rem;
+        text-align: center;
+        border: 1px solid #E5E7EB;
+        min-height: 100px; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .flow-arrow {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 0.5rem;
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: #008DA8;
+      }
+      .tech-pill {
+        display: inline-block;
+        background-color: #E5E7EB;
+        color: #374151;
+        border-radius: 9999px;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin: 0.25rem;
+      }
+      .option-card {
+        background-color: #F8F9FA;
+        border: 2px solid #E5E7EB;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+      }
+    </style>
+</head>
+<body class="bg-[#F8F9FA] text-[#212529]">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <header class="text-center my-8 md:my-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-[#0052CC] mb-4">Terraform & ECS: Scaling ShopVerse to Cloud Power</h1>
+            <p class="text-xl md:text-2xl text-[#212529]">A Case Study on Moving an eCommerce Platform to AWS for Hyper-Growth</p>
+        </header>
+
+        <section id="quick-win" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-12">
+            <div class="stat-card border-t-4 border-[#28A745]">
+                <div class="text-5xl font-extrabold text-[#28A745] mb-2">75% ↓</div>
+                <div class="text-lg font-semibold text-[#374151]">Peak Latency Reduction</div>
+            </div>
+            <div class="stat-card border-t-4 border-[#0052CC]">
+                <div class="text-5xl font-extrabold text-[#0052CC] mb-2">5x+</div>
+                <div class="text-lg font-semibold text-[#374151]">Traffic Handling Capacity</div>
+            </div>
+            <div class="stat-card border-t-4 border-[#008DA8]">
+                <div class="text-5xl font-extrabold text-[#008DA8] mb-2">25% ↓</div>
+                <div class="text-lg font-semibold text-[#374151]">Monthly Cloud Costs</div>
+            </div>
+            <div class="stat-card border-t-4 border-[#FD7E14]">
+                <div class="text-5xl font-extrabold text-[#FD7E14] mb-2">99.97%</div>
+                <div class="text-lg font-semibold text-[#374151]">Sustained Uptime</div>
+            </div>
+        </section>
+
+        <section id="challenge" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">The Pain Points: Before Cloud Migration</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                ShopVerse’s growing eCommerce platform, built on PHP/Node.js, was constrained by a legacy VM setup, leading to frequent outages during peak sales and high operational overhead.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#FD7E14]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FD7E14]">Slow, Manual Scaling</h3>
+                    <p class="text-gray-600">Scaling required support tickets and hours of waiting. Outages occurred 2-3 times per quarter due to capacity limits.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#FD7E14]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FD7E14]">Config Drift & Errors</h3>
+                    <p class="text-gray-600">Environments (Dev/Staging/Prod) never matched, leading to "works on my machine" issues and config incompatibilities during manual rollbacks.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#FD7E14]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FD7E14]">High MTTR (90m)</h3>
+                    <p class="text-gray-600">Distributed logs and lack of centralized visibility meant Mean Time To Recovery was often 90 minutes or more.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#FD7E14]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FD7E14]">Inconsistent Costs</h3>
+                    <p class="text-gray-600">Bills were unpredictable, fluctuating wildly from over-provisioning during peak emergencies to under-provisioning afterward.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="options" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Migration Options Considered</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                We evaluated three pathways against the client's goals for speed, cost, and maintainability.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center max-w-5xl mx-auto">
+                
+                <div class="option-card border-[#FD7E14] shadow-lg">
+                    <div class="text-xl font-bold text-[#FD7E14] mb-2">1. Lift-and-Shift (EC2)</div>
+                    <p class="text-sm font-semibold text-gray-700 mb-4">Migrate VMs as-is.</p>
+                    <ul class="text-left text-sm space-y-2 list-disc list-inside">
+                        <li class="text-[#28A745] font-semibold">Pros: Quick (2-3 months).</li>
+                        <li class="text-[#FD7E14] font-semibold">Cons: No real scaling improvement. Manual operations remain.</li>
+                        <li class="font-bold text-red-600 mt-2">Decision: Rejected - Failed to solve core scaling issues.</li>
+                    </ul>
+                </div>
+
+                <div class="option-card border-[#FD7E14] shadow-lg">
+                    <div class="text-xl font-bold text-[#FD7E14] mb-2">2. Full Kubernetes (EKS)</div>
+                    <p class="text-sm font-semibold text-gray-700 mb-4">Containerize + Managed K8s.</p>
+                    <ul class="text-left text-sm space-y-2 list-disc list-inside">
+                        <li class="text-[#28A745] font-semibold">Pros: Ultimate flexibility/microservices readiness.</li>
+                        <li class="text-[#FD7E14] font-semibold">Cons: High cost (20%+ more), steep learning curve, slow start (4-5 months).</li>
+                        <li class="font-bold text-red-600 mt-2">Decision: Rejected - Too complex and costly for the current monolith.</li>
+                    </ul>
+                </div>
+
+                <div class="option-card border-[#28A745] shadow-xl">
+                    <div class="text-xl font-bold text-[#28A745] mb-2">3. ECS & Terraform</div>
+                    <p class="text-sm font-semibold text-gray-700 mb-4">Containerize + ECS Orchestration + IaC.</p>
+                    <ul class="text-left text-sm space-y-2 list-disc list-inside">
+                        <li class="text-[#28A745] font-semibold">Pros: Fast setup (under 3 months). 25% cheaper than EKS. Easy horizontal scaling.</li>
+                        <li class="text-[#FD7E14] font-semibold">Cons: Less feature-rich than full K8s (irrelevant for the monolith).</li>
+                        <li class="font-bold text-[#28A745] mt-2">Decision: Selected - Optimal balance of speed, cost, and high impact.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="approach" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">The Migration Strategy: Infrastructure as Code First</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                The migration was executed in logical phases using Terraform as the sole source of truth to ensure consistency and minimize risk, achieving a zero-downtime cutover.
+            </p>
+            <div class="flex flex-col md:flex-row md:items-stretch justify-between gap-4">
+                <div class="flow-step flex-1">
+                    <div class="text-base font-bold text-[#0052CC] mb-2">PHASE 1</div>
+                    <h3 class="text-xl font-bold mb-1">Architecture Planning</h3>
+                    <p class="text-gray-600 text-sm">Dependency mapping, defining "replatform" zones, and establishing SLO/SLA targets.</p>
+                </div>
+                
+                <div class="flow-arrow hidden md:flex">→</div>
+                <div class="flow-arrow md:hidden text-center text-3xl font-bold text-[#008DA8] my-1">▼</div>
+
+                <div class="flow-step flex-1">
+                    <div class="text-base font-bold text-[#0052CC] mb-2">PHASE 2</div>
+                    <h3 class="text-xl font-bold mb-1">Terraform Landing Zone</h3>
+                    <p class="text-gray-600 text-sm">Multi-account structure, VPC, private subnets, default encryption, and shared tagging for auditing.</p>
+                </div>
+
+                <div class="flow-arrow hidden md:flex">→</div>
+                <div class="flow-arrow md:hidden text-center text-3xl font-bold text-[#008DA8] my-1">▼</div>
+
+                <div class="flow-step flex-1">
+                    <div class="text-base font-bold text-[#0052CC] mb-2">PHASE 3</div>
+                    <h3 class="text-xl font-bold mb-1">Service Containerization</h3>
+                    <p class="text-gray-600 text-sm">Monolith wrapped in Docker, deployed to ECS Fargate with code-driven auto-scaling policies.</p>
+                </div>
+
+                <div class="flow-arrow hidden md:flex">→</div>
+                <div class="flow-arrow md:hidden text-center text-3xl font-bold text-[#008DA8] my-1">▼</div>
+
+                <div class="flow-step flex-1">
+                    <div class="text-base font-bold text-[#0052CC] mb-2">PHASE 4</div>
+                    <h3 class="text-xl font-bold mb-1">Zero-Downtime Data Move</h3>
+                    <p class="text-gray-600 text-sm">RDS setup, binlog replication, shadow reads for parity, followed by a 3-minute write-pause and DNS flip.</p>
+                </div>
+                
+                <div class="flow-arrow hidden md:flex">→</div>
+                <div class="flow-arrow md:hidden text-center text-3xl font-bold text-[#008DA8] my-1">▼</div>
+
+                <div class="flow-step flex-1">
+                    <div class="text-base font-bold text-[#0052CC] mb-2">PHASE 5</div>
+                    <h3 class="text-xl font-bold mb-1">CI/CD & Monitoring</h3>
+                    <p class="text-gray-600 text-sm">PR triggers Terraform plan; Blue/Green deploys; Centralized CloudWatch logs/metrics linked to SLO alerts.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="results" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Measurable Success: Before & After (180 Days)</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                The strategic use of IaC and managed services delivered compounding benefits, rapidly exceeding all leadership goals.
+            </p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <div class="stat-card p-4 lg:col-span-2">
+                    <h3 class="text-xl font-bold mb-2 text-center">Median API Latency at Peak Traffic</h3>
+                    <p class="text-gray-600 text-center text-sm mb-4">Reduced from critical slowdowns (1.8s) to sub-second response times, stabilizing the checkout experience.</p>
+                    <div class="chart-container">
+                        <canvas id="latencyChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="stat-card p-4">
+                    <h3 class="text-xl font-bold mb-2 text-center">Mean Time To Recovery (MTTR)</h3>
+                    <p class="text-gray-600 text-center text-sm mb-4">Centralized observability and automation cut triage and fix times by over 80%.</p>
+                    <div class="chart-container">
+                        <canvas id="mttrChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="stat-card p-4">
+                    <h3 class="text-xl font-bold mb-2 text-center">Monthly Cloud Costs</h3>
+                    <p class="text-gray-600 text-center text-sm mb-4">Optimization through Fargate, better caching, and autoscaling stabilized and reduced spending.</p>
+                    <div class="chart-container">
+                        <canvas id="costChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="stat-card p-4 lg:col-span-2 flex flex-col justify-center items-center bg-[#0052CC] text-white mt-4">
+                    <h3 class="text-2xl font-bold mb-2 text-center">Final State Achievement</h3>
+                    <p class="text-center text-lg mb-4 opacity-90">Uptime goal exceeded and capacity significantly improved:</p>
+                    <div class="grid grid-cols-2 gap-8 w-full max-w-xl">
+                        <div class="text-center">
+                            <div class="text-6xl font-extrabold text-[#28A745]">99.97%</div>
+                            <div class="text-xl font-semibold mt-2">Uptime (Goal: 99.95%)</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-6xl font-extrabold text-[#FD7E14]">6x+</div>
+                            <div class="text-xl font-semibold mt-2">Traffic Scaling</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tech-stack" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Core Technology Stack & Their "Why"</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                The chosen tools were simple, reliable, and directly addressed the core metrics of speed, cost, and dependability.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#0052CC]">
+                    <h3 class="text-xl font-bold mb-2 text-[#0052CC]">Terraform (IaC Backbone)</h3>
+                    <p class="text-gray-600 text-sm">Why: Provided a single source of truth, enforced consistency across all environments, and allowed for instant rollbacks, eliminating config drift.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#008DA8]">
+                    <h3 class="text-xl font-bold mb-2 text-[#008DA8]">AWS ECS (with Fargate)</h3>
+                    <p class="text-gray-600 text-sm">Why: Enabled smooth, on-demand auto-scaling to handle 5x traffic spikes without the overhead and cost of full Kubernetes (EKS was 25% more expensive).</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#28A745]">
+                    <h3 class="text-xl font-bold mb-2 text-[#28A745]">AWS RDS & ElastiCache</h3>
+                    <p class="text-gray-600 text-sm">Why: Managed data and caching, offloading operational work and cutting latency by handling stateful data with built-in replication.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#FD7E14]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FD7E14]">CloudWatch & X-Ray</h3>
+                    <p class="text-gray-600 text-sm">Why: Centralized logging, metrics, and traces linked directly to SLOs, enabling quick triage and cutting MTTR to under 20 minutes.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center my-12 pt-8 border-t">
+            <h3 class="text-2xl font-bold mb-4">Infrastructure as a Growth Engine</h3>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-6">
+                ShopVerse successfully moved from a fragile, error-prone setup to a resilient, code-driven powerhouse on AWS. Their new infrastructure is now their competitive advantage, not their limit.
+            </p>
+            <a href="#" class="inline-block bg-[#0052CC] text-white font-bold py-3 px-8 rounded-lg text-lg shadow-lg hover:bg-[#0041A3] transition-colors">
+                Start Your Cloud Journey
+            </a>
+        </footer>
+
+    </div>
+
+    <script>
+        (function() {
+            const chartColors = {
+                blue: '#0052CC',
+                teal: '#008DA8',
+                green: '#28A745',
+                orange: '#FD7E14',
+                gray: '#E5E7EB'
+            };
+
+            const tooltipCallback = {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            }
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                maintainAspectRatio: false,
+            };
+
+            const latencyCtx = document.getElementById('latencyChart');
+            if (latencyCtx) {
+                new Chart(latencyCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Baseline', '30 Days Post', '90 Days Post', '180 Days Post'],
+                        datasets: [{
+                            label: 'Median API Latency (ms)',
+                            data: [1800, 520, 450, 420],
+                            borderColor: chartColors.blue,
+                            backgroundColor: 'rgba(0, 82, 204, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        ...tooltipCallback,
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                title: {
+                                    display: true,
+                                    text: 'Latency (ms)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            const mttrCtx = document.getElementById('mttrChart');
+            if (mttrCtx) {
+                new Chart(mttrCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Baseline', '180 Days Post'],
+                        datasets: [{
+                            label: 'MTTR (Minutes)',
+                            data: [90, 15],
+                            backgroundColor: [chartColors.orange, chartColors.green],
+                        }]
+                    },
+                    options: {
+                        ...tooltipCallback,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Time (Minutes)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            const costCtx = document.getElementById('costChart');
+            if (costCtx) {
+                new Chart(costCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Baseline', '30 Days Post', '90 Days Post', '180 Days Post'],
+                        datasets: [{
+                            label: 'Monthly Cloud Cost ($K)',
+                            data: [15, 13.5, 12, 11.25],
+                            backgroundColor: [chartColors.blue, chartColors.teal, chartColors.teal, chartColors.green],
+                        }]
+                    },
+                    options: {
+                        ...tooltipCallback,
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                title: {
+                                    display: true,
+                                    text: 'Cost (in Thousands $)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+        })();
+    </script>
+
+</body>
+</html>

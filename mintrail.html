@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study: MintRail's FinTech API Monitoring with Datadog & SLOs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- 
+    Infographic Narrative Plan:
+    1.  Header & Quick Wins: Hook with the 4 big wins (Latency, MTTR, Uptime, Alert Noise).
+    2.  The Challenge: Focus on "Monitoring Chaos" - fragmented tools, alert fatigue, high MTTR.
+    3.  Solution Options: Compare the 3 options (CloudWatch, ELK, Datadog) and why Datadog won.
+    4.  Our Approach (Process Flow): Visualize the steps from defining SLOs to implementing smart alerts and canary tests.
+    5.  The Results (Data Viz): Use charts for the key metrics: Latency, MTTR, Availability, Alert Noise over time.
+    6.  Tech Stack: List the 3 key components (Datadog, Synthetics, API).
+    7.  Footer & CTA: Final summary ("Reliability as a competitive edge").
+    -->
+    
+    <!-- 
+    Visualization Choices:
+    - Quick Wins: Goal(Inform), Choice(Single Big Number), Method(HTML/Tailwind). Justification: High-impact stats. (NO SVG).
+    - The 4 Challenges: Goal(Organize), Choice(List/Cards), Method(HTML/Tailwind Grid). Justification: Segments the core problems. (NO SVG).
+    - Solution Comparison: Goal(Compare), Choice(Table/List), Method(HTML/Tailwind Grid/Table). Justification: Clearly contrasts the three options. (NO SVG).
+    - Migration Flow: Goal(Organize), Choice(Flow Chart), Method(Structured HTML/Tailwind with flexbox and text arrows). Justification: Show the 5-6 key steps. (NO SVG, NO MERMAID JS).
+    - Result 1 (P95 Latency): Goal(Change), Choice(Line Chart), Method(Chart.js/Canvas). Justification: Show trend from 310ms down to 200ms over 180 days. (NO SVG).
+    - Result 2 (MTTR): Goal(Change), Choice(Line Chart), Method(Chart.js/Canvas). Justification: Show trend from 80 mins down to 15 mins. (NO SVG).
+    - Result 3 (Availability): Goal(Change), Choice(Line Chart), Method(Chart.js/Canvas). Justification: Show trend from 99.90% up to 99.99%. (NO SVG).
+    - Result 4 (Noisy Alerts): Goal(Change), Choice(Bar Chart), Method(Chart.js/Canvas). Justification: Show drop from 10-12 to 4. (NO SVG).
+    - Tech Stack: Goal(Organize), Choice(List), Method(HTML/Tailwind "pills"). Justification: Modern, scannable. (NO SVG).
+    -->
+    
+    <!-- 
+    Confirmation: NEITHER Mermaid JS NOR SVG were used in this file. 
+    All visualizations are created using Chart.js/Canvas or structured HTML/CSS with Tailwind.
+    -->
+
+    <!-- Chosen Color Palette Name: Professional & Vibrant Tech -->
+    
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 650px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 320px;
+        max-height: 350px;
+      }
+      @media (max-width: 640px) {
+        .chart-container {
+          height: 280px;
+          max-height: 300px;
+        }
+      }
+      .stat-card {
+        background-color: #FFFFFF;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+      .flow-step {
+        background-color: #FFFFFF;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        padding: 1rem;
+        text-align: center;
+        border: 1px solid #E5E7EB;
+        min-height: 100px; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .flow-arrow {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 0.5rem;
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: #008DA8;
+      }
+      .tech-pill {
+        display: inline-block;
+        background-color: #E5E7EB;
+        color: #374151;
+        border-radius: 9999px;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin: 0.25rem;
+      }
+      .option-card {
+        background-color: #F8F9FA;
+        border: 2px solid #E5E7EB;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+      }
+    </style>
+</head>
+<body class="bg-[#F8F9FA] text-[#212529]">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <header class="text-center my-8 md:my-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-[#0052CC] mb-4">Unifying FinTech API Monitoring with Datadog & SLOs</h1>
+            <p class="text-xl md:text-2xl text-[#212529]">A Case Study on How MintRail Achieved Bulletproof Reliability</p>
+        </header>
+
+        <section id="quick-win" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-12">
+            <div class="stat-card border-t-4 border-[#28A745]">
+                <div class="text-5xl font-extrabold text-[#28A745] mb-2">33% ↓</div>
+                <div class="text-lg font-semibold text-[#374151]">p95 Latency Reduction</div>
+            </div>
+            <div class="stat-card border-t-4 border-[#0052CC]">
+                <div class="text-5xl font-extrabold text-[#0052CC] mb-2">78% ↓</div>
+                <div class="text-lg font-semibold text-[#374151]">Mean Time to Recovery</div>
+            </div>
+            <div class="stat-card border-t-4 border-[#008DA8]">
+                <div class="text-5xl font-extrabold text-[#008DA8] mb-2">99.99%</div>
+                <div class="text-lg font-semibold text-[#374151]">Peak Availability</div>
+            </div>
+            <div class="stat-card border-t-4 border-[#FD7E14]">
+                <div class="text-5xl font-extrabold text-[#FD7E14] mb-2">52% ↓</div>
+                <div class="text-lg font-semibold text-[#374151]">Noisy Alert Reduction</div>
+            </div>
+        </section>
+
+        <section id="challenge" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">The Challenge: Monitoring Chaos</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                MintRail's critical payments API was fast and reliable, but its monitoring setup was a mess. Metrics, logs, and tests were scattered, leading to slow recovery, alert fatigue, and missed incidents.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#FD7E14]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FD7E14]">Fragmented Tools</h3>
+                    <p class="text-gray-600">Metrics, logs, and traces were in different systems. Engineers wasted time correlating data manually.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#FD7E14]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FD7E14]">Alert Fatigue</h3>
+                    <p class="text-gray-600">Noisy, unreliable alarms woke engineers for false positives but often missed serious, systemic breakdowns.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#FD7E14]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FD7E14]">High MTTR (80m)</h3>
+                    <p class="text-gray-600">Customers reported issues on Slack before alerts fired. Recovery took 65-80 minutes of manual log digging.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#FD7E14]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FD7E14]">No Reliability Goals</h3>
+                    <p class="text-gray-600">Releases were difficult, with no explicit SLOs to define success. Compliance pressure for provable SLAs was mounting.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="options" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Choosing a Unified Platform</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                The leadership goals were clear: unify monitoring, define SLOs, and cut noise. We evaluated three options.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center max-w-5xl mx-auto">
+                
+                <div class="option-card border-[#FD7E14] shadow-lg">
+                    <div class="text-xl font-bold text-[#FD7E14] mb-2">1. AWS CloudWatch/X-Ray</div>
+                    <p class="text-sm font-semibold text-gray-700 mb-4">Built-in AWS Tools</p>
+                    <ul class="text-left text-sm space-y-2 list-disc list-inside">
+                        <li class="text-[#28A745] font-semibold">Pros: Fully managed, native integration.</li>
+                        <li class="text-[#FD7E14] font-semibold">Cons: Difficult SLO setup, not enough synthetic testing, too AWS-focused for multi-region goals.</li>
+                        <li class="font-bold text-red-600 mt-2">Decision: Rejected.</li>
+                    </ul>
+                </div>
+
+                <div class="option-card border-[#FD7E14] shadow-lg">
+                    <div class="text-xl font-bold text-[#FD7E14] mb-2">2. Prometheus / Grafana / ELK</div>
+                    <p class="text-sm font-semibold text-gray-700 mb-4">Open Source Stack</p>
+                    <ul class="text-left text-sm space-y-2 list-disc list-inside">
+                        <li class="text-[#28A745] font-semibold">Pros: Cheap and flexible.</li>
+                        <li class="text-[#FD7E14] font-semibold">Cons: High setup effort, no built-in SLO/Error Budget support.</li>
+                        <li class="font-bold text-red-600 mt-2">Decision: Rejected - Too complex for quick results.</li>
+                    </ul>
+                </div>
+
+                <div class="option-card border-[#28A745] shadow-xl">
+                    <div class="text-xl font-bold text-[#28A745] mb-2">3. Datadog</div>
+                    <p class="text-sm font-semibold text-gray-700 mb-4">Unified SaaS Platform</p>
+                    <ul class="text-left text-sm space-y-2 list-disc list-inside">
+                        <li class="text-[#28A745] font-semibold">Pros: Easy setup, strong native SLO features, compliance-ready (PII scrubbing).</li>
+                        <li class="text-[#FD7E14] font-semibold">Cons: Higher monthly cost.</li>
+                        <li class="font-bold text-[#28A745] mt-2">Decision: Selected - Best for simplicity, compliance, and SLOs.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="approach" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Our Approach: Reliability as Code</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                We used Datadog to build a clear, automated, and reliable solution tied directly to business outcomes, not just server health.
+            </p>
+            <div class="flex flex-col md:flex-row md:items-stretch justify-between gap-4">
+                <div class="flow-step flex-1">
+                    <div class="text-base font-bold text-[#0052CC] mb-2">STEP 1</div>
+                    <h3 class="text-xl font-bold mb-1">Define SLOs</h3>
+                    <p class="text-gray-600 text-sm">Set SLIs (Availability, Latency p95) and SLOs (99.97% Avail, &lt;250ms p95) with Product & Compliance teams.</p>
+                </div>
+                
+                <div class="flow-arrow hidden md:flex">→</div>
+                <div class="flow-arrow md:hidden text-center text-3xl font-bold text-[#008DA8] my-1">▼</div>
+
+                <div class="flow-step flex-1">
+                    <div class="text-base font-bold text-[#0052CC] mb-2">STEP 2</div>
+                    <h3 class="text-xl font-bold mb-1">Unified Tagging</h3>
+                    <p class="text-gray-600 text-sm">Tagged all metrics, logs, and traces (service, endpoint, region) for easy filtering and correlation.</p>
+                </div>
+
+                <div class="flow-arrow hidden md:flex">→</div>
+                <div class="flow-arrow md:hidden text-center text-3xl font-bold text-[#008DA8] my-1">▼</div>
+
+                <div class="flow-step flex-1">
+                    <div class="text-base font-bold text-[#0052CC] mb-2">STEP 3</div>
+                    <h3 class="text-xl font-bold mb-1">Synthetic Tests</h3>
+                    <p class="text-gray-600 text-sm">Mimicked real merchant flows (approve, refund) every minute from multiple regions to proactively find issues.</p>
+                </div>
+
+                <div class="flow-arrow hidden md:flex">→</div>
+                <div class="flow-arrow md:hidden text-center text-3xl font-bold text-[#008DA8] my-1">▼</div>
+
+                <div class="flow-step flex-1">
+                    <div class="text-base font-bold text-[#0052CC] mb-2">STEP 4</div>
+                    <h3 class="text-xl font-bold mb-1">Smart Alerting</h3>
+                    <p class="text-gray-600 text-sm">Used "Burn Rate" logic on SLO Error Budgets. Only paged for rapid (5m) or slow (1h) budget burns, cutting noise by 52%.</p>
+                </div>
+                
+                <div class="flow-arrow hidden md:flex">→</div>
+                <div class="flow-arrow md:hidden text-center text-3xl font-bold text-[#008DA8] my-1">▼</div>
+
+                <div class="flow-step flex-1">
+                    <div class="text-base font-bold text-[#0052CC] mb-2">STEP 5</div>
+                    <h3 class="text-xl font-bold mb-1">Canary Testing</h3>
+                    <p class="text-gray-600 text-sm">Routed 5% of traffic to new code, compared SLIs to baseline, and auto-rolled back if p95 latency spiked.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="results" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">The Results: Reliability as a Competitive Edge</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                Within 180 days, MintRail's API went from a messy liability to a rock-solid asset, beating all target goals.
+            </p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <div class="stat-card p-4">
+                    <h3 class="text-xl font-bold mb-2 text-center">p95 API Latency</h3>
+                    <p class="text-gray-600 text-center text-sm mb-4">Latency dropped 33%, stabilizing well below the 250ms target and making checkouts faster.</p>
+                    <div class="chart-container">
+                        <canvas id="latencyChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="stat-card p-4">
+                    <h3 class="text-xl font-bold mb-2 text-center">Mean Time To Recovery (MTTR)</h3>
+                    <p class="text-gray-600 text-center text-sm mb-4">Unified visibility and better alerts cut recovery time from 80 mins to just 15 mins.</p>
+                    <div class="chart-container">
+                        <canvas id="mttrChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="stat-card p-4">
+                    <h3 class="text-xl font-bold mb-2 text-center">API Availability (/authorize)</h3>
+                    <p class="text-gray-600 text-center text-sm mb-4">Uptime improved from 99.90% to a near-flawless 99.99%, beating the 99.97% target.</p>
+                    <div class="chart-container">
+                        <canvas id="availabilityChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="stat-card p-4">
+                    <h3 class="text-xl font-bold mb-2 text-center">Noisy Alerts per Week</h3>
+                    <p class="text-gray-600 text-center text-sm mb-4">Burn-rate logic cut false positives and unnecessary pages by 52%, improving on-call health.</p>
+                    <div class="chart-container">
+                        <canvas id="alertChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tech-stack" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Core Technology Stack</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                The solution was focused on a single, powerful platform to ensure unification.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#0052CC]">
+                    <h3 class="text-xl font-bold mb-2 text-[#0052CC]">Datadog (Unified Platform)</h3>
+                    <p class="text-gray-600 text-sm">Why: A single place for metrics, logs, traces, synthetics, and SLOs. It simplified setup and made auditing for compliance easy.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#008DA8]">
+                    <h3 class="text-xl font-bold mb-2 text-[#008DA8]">Datadog Synthetic Tests</h3>
+                    <p class="text-gray-600 text-sm">Why: Proactively found issues by imitating user flows from multiple regions, safeguarding SLOs before customers were impacted.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#28A745]">
+                    <h3 class="text-xl font-bold mb-2 text-[#28A745]">Datadog API (SLOs as Code)</h3>
+                    <p class="text-gray-600 text-sm">Why: Managed SLOs and alerts as code, enabling version control, automation, and consistency across all services.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center my-12 pt-8 border-t">
+            <h3 class="text-2xl font-bold mb-4">From Mess to Rock-Solid</h3>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-6">
+                With Datadog's unified observability, MintRail's API is now a competitive advantage. Clear SLOs drive decisions, canary checks make releases safe, and compliance is simple.
+            </p>
+            <a href="#" class="inline-block bg-[#0052CC] text-white font-bold py-3 px-8 rounded-lg text-lg shadow-lg hover:bg-[#0041A3] transition-colors">
+                Make Your API Bulletproof
+            </a>
+        </footer>
+
+    </div>
+
+    <script>
+        (function() {
+            const chartColors = {
+                blue: '#0052CC',
+                teal: '#008DA8',
+                green: '#28A745',
+                orange: '#FD7E14',
+                gray: '#E5E7EB'
+            };
+
+            const tooltipCallback = {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            }
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                maintainAspectRatio: false,
+            };
+
+            const labels = ['Baseline', '30 Days Post', '90 Days Post', '180 Days Post'];
+
+            const latencyCtx = document.getElementById('latencyChart');
+            if (latencyCtx) {
+                new Chart(latencyCtx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'p95 Latency (ms)',
+                            data: [310, 240, 205, 200],
+                            borderColor: chartColors.blue,
+                            backgroundColor: 'rgba(0, 82, 204, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        ...tooltipCallback,
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                title: {
+                                    display: true,
+                                    text: 'Latency (ms)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            const mttrCtx = document.getElementById('mttrChart');
+            if (mttrCtx) {
+                new Chart(mttrCtx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'MTTR (Minutes)',
+                            data: [80, 25, 18, 15],
+                            borderColor: chartColors.orange,
+                            backgroundColor: 'rgba(253, 126, 20, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        ...tooltipCallback,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Time (Minutes)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            const availabilityCtx = document.getElementById('availabilityChart');
+            if (availabilityCtx) {
+                new Chart(availabilityCtx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Availability (%)',
+                            data: [99.90, 99.97, 99.985, 99.99],
+                            borderColor: chartColors.green,
+                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        ...tooltipCallback,
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                min: 99.85,
+                                max: 100,
+                                title: {
+                                    display: true,
+                                    text: 'Availability (%)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            const alertCtx = document.getElementById('alertChart');
+            if (alertCtx) {
+                new Chart(alertCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Baseline (Avg)', '180 Days Post'],
+                        datasets: [{
+                            label: 'Noisy Alerts per Week',
+                            data: [11, 4],
+                            backgroundColor: [chartColors.orange, chartColors.green],
+                        }]
+                    },
+                    options: {
+                        ...tooltipCallback,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Alerts per Week'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+        })();
+    </script>
+
+</body>
+</html>

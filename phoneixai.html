@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study: Project Phoenix AI Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #F8F9FA;
+        color: #073B4C;
+      }
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 320px;
+        max-height: 350px;
+      }
+      @media (max-width: 640px) {
+        .chart-container {
+          height: 280px;
+          max-height: 300px;
+        }
+      }
+      .stat-card {
+        background-color: #FFFFFF;
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        padding: 1.5rem 1rem;
+        text-align: center;
+        border-top: 5px solid #06D6A0;
+      }
+      .flow-step {
+        background-color: #FFFFFF;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        padding: 1rem;
+        text-align: center;
+        border: 1px solid #E5E7EB;
+        min-height: 100px; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .flow-arrow {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 1rem;
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: #118AB2;
+      }
+      .tech-pill {
+        display: inline-block;
+        background-color: #E5E7EB;
+        color: #073B4C;
+        border-radius: 9999px;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin: 0.25rem;
+      }
+    </style>
+</head>
+<body class="bg-[#F8F9FA]">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <header class="text-center my-8 md:my-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-[#073B4C] mb-4">Project Phoenix: The Internal AI Assistant</h1>
+            <p class="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto">
+                An Aeitch Solution case study on developing a real-time, biometrically-authenticated assistant with a strategic RAG architecture.
+            </p>
+        </header>
+
+        <section id="challenge" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#073B4C]">The 4-Fold Challenge</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                Aeitch Solution needed to centralize dynamic internal information, but faced four critical hurdles to creating a truly useful and secure tool.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#FF6B6B]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FF6B6B]">1. Policy & Operations</h3>
+                    <p class="text-gray-600">Answering nuanced questions from unstructured data like employee handbooks.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#FF6B6B]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FF6B6B]">2. Dynamic Services</h3>
+                    <p class="text-gray-600">Managing real-time, changing data like daily meal subscriptions and menus.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#FF6B6B]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FF6B6B]">3. Secure Access</h3>
+                    <p class="text-gray-600">Ensuring internal-only access with a seamless, high-speed biometric (facial) login.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#FF6B6B]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FF6B6B]">4. Real-Time Experience</h3>
+                    <p class="text-gray-600">Overcoming high LLM latency to provide a fluid, conversational, and interruptible interface.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="solution-flow" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#073B4C]">The Three-Pillar Architecture</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                We engineered a full-stack, asynchronous system to manage data ingestion, real-time logic, and an interactive user experience.
+            </p>
+            <div class="flex flex-col md:flex-row md:items-stretch justify-between gap-4">
+                <div class="flow-step flex-1 flex flex-col justify-center">
+                    <div class="text-base font-bold text-[#118AB2] mb-2">PILLAR 1</div>
+                    <h3 class="text-xl font-bold mb-2">Data Ingestion Pipeline</h3>
+                    <p class="text-gray-600 text-sm">Python scripts load, chunk, and create semantic embeddings from handbooks, storing them in a ChromaDB vector database.</p>
+                </div>
+                
+                <div class="flow-arrow hidden md:flex">→</div>
+                <div class="flow-arrow md:hidden text-center text-3xl font-bold text-[#118AB2] my-2">▼</div>
+
+                <div class="flow-step flex-1 flex flex-col justify-center bg-[#118AB2]/10 border-2 border-[#118AB2]">
+                    <div class="text-base font-bold text-[#118AB2] mb-2">PILLAR 2</div>
+                    <h3 class="text-xl font-bold mb-2">Core Backend (FastAPI)</h3>
+                    <p class="text-gray-600 text-sm">Manages WebSocket connections, biometric auth via DeepFace/FAISS, and the core RAG logic using LangChain.</p>
+                </div>
+
+                <div class="flow-arrow hidden md:flex">→</div>
+                <div class="flow-arrow md:hidden text-center text-3xl font-bold text-[#118AB2] my-2">▼</div>
+
+                <div class="flow-step flex-1 flex flex-col justify-center">
+                    <div class="text-base font-bold text-[#118AB2] mb-2">PILLAR 3</div>
+                    <h3 class="text-xl font-bold mb-2">Frontend Interface</h3>
+                    <p class="text-gray-600 text-sm">A pure HTML/Tailwind/JS interface with a state-based CSS avatar and browser-native Web Speech API for voice I/O.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="pivot" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#073B4C]">Key Innovation 1: The Strategic Pivot to RAG</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                An initial Knowledge Graph (KG) approach failed due to the unstructured, prose-heavy nature of our data. We strategically pivoted to a Retrieval-Augmented Generation (RAG) model, which proved superior.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-lg shadow-md p-6 border-t-4 border-[#FF6B6B]">
+                    <h3 class="text-2xl font-bold mb-4 text-center text-[#FF6B6B]">Why Knowledge Graphs Failed</h3>
+                    <div class="border-t pt-4">
+                        <ul class="space-y-3 text-gray-600 list-disc list-outside pl-5">
+                            <li><strong class="text-gray-700">Schema Rigidity:</strong> Impossible to define a rigid schema for unstructured employee handbooks.</li>
+                            <li><strong class="text-gray-700">Brittle Extraction:</strong> Parsing prose into correct "node" and "edge" relationships was highly error-prone.</li>
+                            <li><strong class="text-gray-700">Query Failures:</strong> Natural language queries often failed to translate into formal graph queries (e.g., Cypher), returning zero results.</li>
+                            <li><strong class="text-gray-700">Poor Nuance:</strong> Struggled with interpretive questions ("What is the company culture like?").</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 border-t-4 border-[#06D6A0]">
+                    <h3 class="text-2xl font-bold mb-4 text-center text-[#06D6A0]">Why RAG Succeeded</h3>
+                    <div class="border-t pt-4">
+                        <ul class="space-y-3 text-gray-600 list-disc list-outside pl-5">
+                            <li><strong class="text-gray-700">Semantic Flexibility:</strong> Easily searches raw text, retrieving entire relevant passages for the LLM.</li>
+                            <li><strong class="text-gray-700">Innate Simplicity:</strong> Semantic similarity search is highly robust against varied user phrasing.</li>
+                            <li><strong class="text-gray-700">Contextual Accuracy:</strong> Delivers comprehensive, nuanced answers perfect for complex policy questions.</li>
+                            <li><strong class="text-gray-700">Easy Maintenance:</strong> The knowledge base is updated simply by re-embedding new documents.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="performance" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#073B4C]">Key Innovation 2: Optimizing for Real-Time Speed</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                Latency was the biggest threat to user experience. Rigorous testing revealed that the initial model choice, `llama3:70b`, had an unacceptable 45-second latency. We re-tooled and selected `gemma3:27b-it-qat` for its optimal balance of speed and accuracy.
+            </p>
+            <div class="bg-white rounded-lg shadow-xl p-6 border-t-4 border-[#118AB2]">
+                <h3 class="text-xl font-bold mb-2 text-center">LLM Latency Comparison</h3>
+                <p class="text-gray-600 text-center text-sm mb-4">The `gemma` model provided a 90%+ reduction in response latency, making a real-time conversational flow possible.</p>
+                <div class="chart-container">
+                    <canvas id="latencyChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <section id="ux-innovation" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#073B4C]">Key Innovation 3: Secure & Engaging UX</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                The solution required an interface that was as intelligent and secure as the backend logic, built without heavy libraries.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#FFD166]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FFD166]">Biometric Auth (FAISS + Caching)</h3>
+                    <p class="text-gray-600">Facial embeddings are computationally expensive. We pre-cached all employee embeddings into a `.pkl` file. This, combined with FAISS for high-speed search, reduced authentication time from seconds to milliseconds.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-[#FFD166]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FFD166]">State-Based HTML Avatar</h3>
+                    <p class="text-gray-600">The avatar is a composite of HTML `div`s. A JavaScript state machine adds/removes CSS classes (`is-talking`, `is-thinking`) to trigger keyframe animations, including a lip-sync synchronized with the Web Speech API.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="results" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#073B4C]">Project Phoenix: Final Outcomes</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                The final system successfully delivered on all core goals, transforming a conceptual tool into a high-performance, mission-critical application.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="stat-card">
+                    <div class="text-6xl font-extrabold text-[#06D6A0] mb-2">Secure</div>
+                    <h3 class="text-xl font-semibold text-[#073B4C] mb-2">Enhanced Security</h3>
+                    <p class="text-gray-600">Mandatory, near-instant facial recognition authentication ensures all data is restricted to authorized employees.</p>
+                </div>
+                <div class="stat-card">
+                    <div class="text-6xl font-extrabold text-[#06D6A0] mb-2">Responsive</div>
+                    <h3 class="text-xl font-semibold text-[#073B4C] mb-2">Superior User Experience</h3>
+                    <p class="text-gray-600">Low-latency streaming, natural interruption handling, and an engaging avatar create a fluid conversational flow.</p>
+                </div>
+                <div class="stat-card">
+                    <div class="text-6xl font-extrabold text-[#06D6A0] mb-2">Accurate</div>
+                    <h3 class="text-xl font-semibold text-[#073B4C] mb-2">High-Fidelity Answers</h3>
+                    <p class="text-gray-600">The robust RAG architecture, supported by Query Expansion and Context Deduplication, ensures reliable answers.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tech-stack" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#073B4C]">Core Technology Stack</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                A modern, high-performance stack was selected to power the real-time AI, biometric, and web components.
+            </p>
+            <div class="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto">
+                <span class="tech-pill">Python</span>
+                <span class="tech-pill">FastAPI</span>
+                <span class="tech-pill">LangChain</span>
+                <span class="tech-pill">Ollama</span>
+                <span class="tech-pill">ChromaDB</span>
+                <span class="tech-pill">DeepFace</span>
+                <span class="tech-pill">FAISS</span>
+                <span class="tech-pill">WebSockets</span>
+                <span class="tech-pill">HTML5</span>
+                <span class="tech-pill">Tailwind CSS</span>
+                <span class="tech-pill">JavaScript</span>
+                <span class="tech-pill">Web Speech API</span>
+            </div>
+        </section>
+
+        <footer class="text-center my-12 pt-8 border-t">
+            <h3 class="text-2xl font-bold mb-4 text-[#073B4C]">From Concept to Conversation</h3>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-6">
+                This project demonstrates Aeitch Solution's expertise in iterative design, complex AI integration, and strategic performance optimization to deliver mission-critical applications.
+            </p>
+            <a href="#" class="inline-block bg-[#118AB2] text-white font-bold py-3 px-8 rounded-lg text-lg shadow-lg hover:bg-[#073B4C] transition-colors">
+                Build Your AI Solution
+            </a>
+        </footer>
+
+    </div>
+
+    <script>
+        (function() {
+            const chartColors = {
+                red: '#FF6B6B',
+                yellow: '#FFD166',
+                green: '#06D6A0',
+                blue: '#118AB2',
+                darkBlue: '#073B4C',
+                gray: '#E5E7EB'
+            };
+
+            const tooltipCallback = {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            }
+                        }
+                    },
+                    legend: {
+                        labels: {
+                            font: {
+                                family: 'Inter',
+                                size: 12
+                            },
+                            color: chartColors.darkBlue
+                        }
+                    }
+                },
+                maintainAspectRatio: false,
+            };
+            
+            const barOptions = (yAxisLabel) => ({
+                ...tooltipCallback,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: chartColors.darkBlue, font: { weight: '600' } },
+                        grid: { color: chartColors.gray },
+                        title: {
+                            display: true,
+                            text: yAxisLabel,
+                            color: chartColors.darkBlue,
+                            font: { size: 14, weight: '600' }
+                        }
+                    },
+                    x: {
+                        ticks: { color: chartColors.darkBlue, font: { size: 12, weight: '600' } },
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    ...tooltipCallback.plugins,
+                    legend: { display: false }
+                }
+            });
+
+            const latencyCtx = document.getElementById('latencyChart');
+            if (latencyCtx) {
+                new Chart(latencyCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: [['llama3:70b', '(Initial Test)'], ['gemma3:27b-it-qat', '(Final Model)']],
+                        datasets: [{
+                            label: 'Response Latency (Seconds)',
+                            data: [45, 3.5],
+                            backgroundColor: [chartColors.red, chartColors.green],
+                            maxBarThickness: 80
+                        }]
+                    },
+                    options: barOptions('Response Latency (Seconds)')
+                });
+            }
+
+        })();
+    </script>
+
+</body>
+</html>

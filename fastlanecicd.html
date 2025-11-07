@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study: Fastlane CI/CD for Mobile App Delivery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- 
+    Infographic Narrative Plan:
+    1. Header & Hook: Title and main accomplishment stats (Time, Success Rate). Goal: Inform. Method: HTML/Tailwind Big Numbers.
+    2. The Challenge: Detail the fragmentation and pain points (Signing, Inconsistency, Hotfix time). Goal: Organize. Method: HTML/Tailwind Cards.
+    3. The Options & Decision: Compare the three CI/CD strategies. Goal: Compare. Method: HTML/Tailwind Comparison Cards.
+    4. Our Approach: Visualize the 8-step Fastlane implementation flow. Goal: Organize. Method: Structured HTML/Tailwind Flow Diagram (NO SVG/MERMAID).
+    5. The Results: Show metric improvements over 180 days. Goal: Change. Method: Chart.js Line/Bar Charts (3 total) and HTML Table.
+    6. Conclusion: Quote, Tech Stack, and final summary. Goal: Inform/Organize. Method: HTML/Tailwind.
+    -->
+    
+    <!-- 
+    Visualization Choices:
+    - Quick Wins: Goal(Inform), Choice(Single Big Number), Method(HTML/Tailwind). Justification: High-impact stats. (NO SVG).
+    - The Challenges: Goal(Organize), Choice(List/Cards), Method(HTML/Tailwind). Justification: Segments the core problems. (NO SVG).
+    - Solution Comparison: Goal(Compare), Choice(Comparison Cards), Method(HTML/Tailwind). Justification: Clearly contrasts the three options. (NO SVG).
+    - Implementation Flow: Goal(Organize), Choice(Flow Chart), Method(Structured HTML/Tailwind with text arrows). Justification: Shows the step-by-step process. (NO SVG, NO MERMAID JS).
+    - Result 1 (Lead Time): Goal(Change), Choice(Line Chart), Method(Chart.js/Canvas). Justification: Show the trend of time reduction. (NO SVG).
+    - Result 2 (Success Rate): Goal(Change), Choice(Line Chart), Method(Chart.js/Canvas). Justification: Show the trend of stability increase. (NO SVG).
+    - Result 3 (Signing Incidents): Goal(Change), Choice(Bar Chart), Method(Chart.js/Canvas). Justification: Show the reduction of discrete errors. (NO SVG).
+    - Metrics Table: Goal(Organize), Choice(Table), Method(HTML/Tailwind Table). Justification: Presents comprehensive comparative data clearly. (NO SVG).
+    - Tech Stack: Goal(Organize), Choice(List/Pills), Method(HTML/Tailwind). (NO SVG).
+    -->
+
+    <!-- Confirmation: NEITHER Mermaid JS NOR SVG were used in this file. -->
+    <!-- Chosen Color Palette Name: Professional & Vibrant Tech -->
+    
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        color: #212529; /* Dark Gray Text */
+      }
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 650px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 320px;
+        max-height: 350px;
+      }
+      @media (max-width: 640px) {
+        .chart-container {
+          height: 280px;
+          max-height: 300px;
+        }
+      }
+      .stat-card {
+        background-color: #FFFFFF;
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        padding: 1.5rem;
+        text-align: center;
+        border-top: 5px solid;
+      }
+      .flow-step {
+        background-color: #FFFFFF;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+        text-align: center;
+        border: 1px solid #E5E7EB;
+        min-height: 100px; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .flow-arrow {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0.5rem 0.5rem;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #008DA8; 
+      }
+      .option-card {
+        background-color: #F8F9FA;
+        border: 2px solid #E5E7EB;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        transition: transform 0.2s;
+      }
+      .option-card:hover {
+        transform: translateY(-4px);
+      }
+    </style>
+</head>
+<body class="bg-[#F8F9FA]">
+
+    <div class="container mx-auto p-4 md:p-12 max-w-7xl">
+
+        <header class="text-center my-8 md:my-16">
+            <span class="text-sm font-semibold uppercase tracking-widest text-[#008DA8] mb-2 block">Case Study: DevOps for Mobile</span>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-[#0052CC] mb-4">Fastlane: Transforming Mobile Releases from Hours to Minutes</h1>
+            <p class="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto">
+                How a growing mobile product team slashed release lead time by 85% and achieved near-perfect build stability.
+            </p>
+        </header>
+
+        <section id="quick-wins" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-12">
+            
+            <div class="stat-card border-[#28A745]">
+                <div class="text-5xl font-extrabold text-[#28A745] mb-2">4+ hrs → 50 min</div>
+                <div class="text-lg font-semibold text-gray-600">Initial Release Time Cut</div>
+            </div>
+            
+            <div class="stat-card border-[#0052CC]">
+                <div class="text-5xl font-extrabold text-[#0052CC] mb-2">99%</div>
+                <div class="text-lg font-semibold text-gray-600">Peak Build Success Rate</div>
+            </div>
+            
+            <div class="stat-card border-[#FD7E14]">
+                <div class="text-5xl font-extrabold text-[#FD7E14] mb-2">0</div>
+                <div class="text-lg font-semibold text-gray-600">Signing Incidents (180 Days)</div>
+            </div>
+            
+            <div class="stat-card border-[#008DA8]">
+                <div class="text-5xl font-extrabold text-[#008DA8] mb-2">~8 hrs → 55 min</div>
+                <div class="text-lg font-semibold text-gray-600">Hotfix Lead Time Reduction</div>
+            </div>
+        </section>
+
+        <section id="challenge" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#0052CC]">The Fragmentation Challenge</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                The manual, machine-dependent process was slow, prone to errors, and consumed valuable engineering time.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg shadow-xl p-6 border-l-4 border-[#FD7E14]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FD7E14]">Inconsistent Builds</h3>
+                    <p class="text-gray-600 text-sm">Different versions of Xcode/Gradle across developer machines led to "works on my machine" bugs and unstable integration.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-xl p-6 border-l-4 border-[#FD7E14]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FD7E14]">Signing & Credential Chaos</h3>
+                    <p class="text-gray-600 text-sm">Credentials (keystores, certs) were managed locally and shared via messaging, causing expired certificates and missing keys to halt releases.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-xl p-6 border-l-4 border-[#FD7E14]">
+                    <h3 class="text-xl font-bold mb-2 text-[#FD7E14]">Manual Metadata Errors</h3>
+                    <p class="text-gray-600 text-sm">Manually changing store metadata and screenshots often resulted in errors, delays, and rejections.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="options" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#0052CC]">Evaluating Mobile CI/CD Options</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                The goal was a single, reliable pipeline on **macOS agents** without excessive cost or complexity.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center max-w-5xl mx-auto">
+                
+                <div class="option-card border-red-500">
+                    <div class="text-xl font-bold text-red-600 mb-2">Jenkins + Manual Scripts</div>
+                    <p class="text-sm font-semibold text-gray-700 mb-4">Custom CI with existing scripts</p>
+                    <ul class="text-left text-sm space-y-2 list-disc list-inside">
+                        <li class="text-[#28A745] font-semibold">Pros: Very Low Cost.</li>
+                        <li class="text-[#FD7E14] font-semibold">Cons: Scripts break easily; no built-in mobile support; high maintenance effort.</li>
+                        <li class="font-bold text-red-600 mt-2">Status: Too Fragile.</li>
+                    </ul>
+                </div>
+
+                <div class="option-card border-gray-400">
+                    <div class="text-xl font-bold text-gray-700 mb-2">Bitrise (Cloud CI/CD)</div>
+                    <p class="text-sm font-semibold text-gray-700 mb-4">SaaS platform optimized for mobile</p>
+                    <ul class="text-left text-sm space-y-2 list-disc list-inside">
+                        <li class="text-[#28A745] font-semibold">Pros: Easy mobile setup, low initial configuration.</li>
+                        <li class="text-[#FD7E14] font-semibold">Cons: High ongoing cost ($50+/user/mo); less control over macOS agent specifics.</li>
+                        <li class="font-bold text-gray-700 mt-2">Status: Too Expensive.</li>
+                    </ul>
+                </div>
+
+                <div class="option-card border-[#28A745] shadow-xl border-4">
+                    <div class="text-xl font-bold text-[#28A745] mb-2">Fastlane on macOS Agents</div>
+                    <p class="text-sm font-semibold text-gray-700 mb-4">Open-source, code-driven mobile automation</p>
+                    <ul class="text-left text-sm space-y-2 list-disc list-inside">
+                        <li class="text-[#28A745] font-semibold">Pros: Full control; single pipeline for iOS/Android; open-source and free.</li>
+                        <li class="text-[#FD7E14] font-semibold">Cons: Requires initial setup time.</li>
+                        <li class="font-bold text-[#28A745] mt-2">Status: Selected - Ideal balance of control, features, and cost.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="approach" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#0052CC]">The Fastlane Approach: 8-Step Automated Flow</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                A single Fastfile unified chaotic releases into a seamless, secure, and repeatable procedure for both platforms.
+            </p>
+            <div class="flex flex-wrap md:flex-row justify-center items-center gap-2 md:gap-4 max-w-6xl mx-auto">
+                
+                <!-- Step 1 -->
+                <div class="flow-step w-32 md:w-40 h-28">
+                    <h3 class="text-base font-bold text-[#0052CC]">1. Pinned Agents</h3>
+                    <p class="text-gray-600 text-xs mt-1">Locked Xcode/Gradle versions for build consistency.</p>
+                </div>
+                <div class="flow-arrow hidden md:block">→</div>
+                
+                <!-- Step 2 -->
+                <div class="flow-step w-32 md:w-40 h-28">
+                    <h3 class="text-base font-bold text-[#0052CC]">2. Unified Fastfile</h3>
+                    <p class="text-gray-600 text-xs mt-1">Single control file for both iOS and Android lanes.</p>
+                </div>
+                <div class="flow-arrow hidden md:block">→</div>
+
+                <!-- Step 3 -->
+                <div class="flow-step w-32 md:w-40 h-28">
+                    <h3 class="text-base font-bold text-[#0052CC]">3. Secure Code Signing</h3>
+                    <p class="text-gray-600 text-xs mt-1">Encrypted repo/vault for certificates, accessed only during runtime.</p>
+                </div>
+                <div class="flow-arrow hidden md:block">→</div>
+
+                <!-- Step 4 -->
+                <div class="flow-step w-32 md:w-40 h-28">
+                    <h3 class="text-base font-bold text-[#0052CC]">4. Full Test Suite</h3>
+                    <p class="text-gray-600 text-xs mt-1">Unit and UI tests run automatically with detailed failure logs/screenshots.</p>
+                </div>
+                <div class="flow-arrow w-full md:hidden text-center text-[#008DA8] my-2">▼</div>
+                
+                <!-- Flow continues on next line for responsiveness -->
+                <div class="hidden md:block w-full"></div> 
+
+                <!-- Step 5 -->
+                <div class="flow-step w-32 md:w-40 h-28">
+                    <h3 class="text-base font-bold text-[#0052CC]">5. Automated Versioning</h3>
+                    <p class="text-gray-600 text-xs mt-1">Fastlane ensures consistent build numbers, app IDs, and versions.</p>
+                </div>
+                <div class="flow-arrow hidden md:block">→</div>
+
+                <!-- Step 6 -->
+                <div class="flow-step w-32 md:w-40 h-28">
+                    <h3 class="text-base font-bold text-[#0052CC]">6. Tiered Rollouts</h3>
+                    <p class="text-gray-600 text-xs mt-1">Internal, then Beta, then Production. Automated check of all store assets.</p>
+                </div>
+                <div class="flow-arrow hidden md:block">→</div>
+
+                <!-- Step 7 -->
+                <div class="flow-step w-32 md:w-40 h-28">
+                    <h3 class="text-base font-bold text-[#0052CC]">7. Runtime Security</h3>
+                    <p class="text-gray-600 text-xs mt-1">API keys and secrets injected as environment variables (never hardcoded).</p>
+                </div>
+                <div class="flow-arrow hidden md:block">→</div>
+
+                <!-- Step 8 -->
+                <div class="flow-step w-32 md:w-40 h-28">
+                    <h3 class="text-base font-bold text-[#0052CC]">8. Built-in Rollback</h3>
+                    <p class="text-gray-600 text-xs mt-1">Auto-reverts to the last stable build if post-release metrics crash.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="results" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#0052CC]">The Results: Predictable, High-Velocity Delivery</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto text-center mb-12">
+                In under 180 days, the pipeline delivered against all key performance indicators, generating an estimated 3-year **NPV of $150K** with payback in 4 months.
+            </p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                
+                <div class="stat-card p-4 border-[#28A745]">
+                    <h3 class="text-xl font-bold mb-2 text-center">Release Lead Time (Hours/Minutes)</h3>
+                    <p class="text-gray-600 text-center text-sm mb-4">Time from combined code to store availability dropped by 85%.</p>
+                    <div class="chart-container">
+                        <canvas id="timeChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="stat-card p-4 border-[#0052CC]">
+                    <h3 class="text-xl font-bold mb-2 text-center">Build Success Rate (%)</h3>
+                    <p class="text-gray-600 text-center text-sm mb-4">Consistency and pinned dependencies drove stability from 85% to 99%.</p>
+                    <div class="chart-container">
+                        <canvas id="successChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="stat-card p-4 border-[#FD7E14]">
+                    <h3 class="text-xl font-bold mb-2 text-center">Signing Incidents per Month</h3>
+                    <p class="text-gray-600 text-center text-sm mb-4">Centralized, automated credential handling eliminated all signing failures.</p>
+                    <div class="chart-container">
+                        <canvas id="signingChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-2xl p-6 md:p-10 border border-gray-100">
+                <h3 class="text-2xl font-bold mb-4 text-[#0052CC]">Full Performance Metric Table</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-left text-sm font-light">
+                        <thead class="border-b bg-gray-50 font-medium">
+                            <tr>
+                                <th scope="col" class="px-6 py-4">Metric</th>
+                                <th scope="col" class="px-6 py-4">Baseline (Pre-Fastlane)</th>
+                                <th scope="col" class="px-6 py-4">30 Days Post</th>
+                                <th scope="col" class="px-6 py-4">180 Days Post</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="whitespace-nowrap px-6 py-4 font-semibold">Release Lead Time</td>
+                                <td class="whitespace-nowrap px-6 py-4 text-[#FD7E14]">4-5 hours</td>
+                                <td class="whitespace-nowrap px-6 py-4 text-[#0052CC]">50 minutes</td>
+                                <td class="whitespace-nowrap px-6 py-4 text-[#28A745]">35 minutes</td>
+                            </tr>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="whitespace-nowrap px-6 py-4 font-semibold">Build Success Rate</td>
+                                <td class="whitespace-nowrap px-6 py-4 text-[#FD7E14]">85%</td>
+                                <td class="whitespace-nowrap px-6 py-4 text-[#0052CC]">95%</td>
+                                <td class="whitespace-nowrap px-6 py-4 text-[#28A745]">99%</td>
+                            </tr>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="whitespace-nowrap px-6 py-4 font-semibold">Signing Incidents / Mo</td>
+                                <td class="whitespace-nowrap px-6 py-4 text-[#FD7E14]">3-5</td>
+                                <td class="whitespace-nowrap px-6 py-4 text-[#0052CC]">1</td>
+                                <td class="whitespace-nowrap px-6 py-4 text-[#28A745]">0</td>
+                            </tr>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="whitespace-nowrap px-6 py-4 font-semibold">Hotfix Time</td>
+                                <td class="whitespace-nowrap px-6 py-4 text-[#FD7E14]">~8 hours</td>
+                                <td class="whitespace-nowrap px-6 py-4 text-[#0052CC]">70 minutes</td>
+                                <td class="whitespace-nowrap px-6 py-4 text-[#28A745]">55 minutes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <section id="conclusion" class="my-16">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                <div class="lg:col-span-2 bg-white rounded-xl shadow-2xl p-8 border-l-4 border-[#008DA8]">
+                    <h3 class="text-3xl font-bold mb-4 text-[#0052CC]">"We ship faster, safer, and without any problems."</h3>
+                    <p class="text-xl italic mb-4">"Fastlane made it easy for us to release things instead of being a pain. Engineers don't have to chase configs; they can just write code."</p>
+                    <p class="text-lg font-semibold text-[#008DA8]">— Alex Chen, Head of Mobile Engineering</p>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-2xl p-6 border-t-4 border-[#28A745]">
+                    <h3 class="text-2xl font-bold mb-4 text-[#28A745]">Key Technologies</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="inline-block bg-[#E5E7EB] text-[#212529] rounded-full px-4 py-2 text-sm font-semibold">Fastlane (The Core)</span>
+                        <span class="inline-block bg-[#E5E7EB] text-[#212529] rounded-full px-4 py-2 text-sm font-semibold">macOS Build Agents</span>
+                        <span class="inline-block bg-[#E5E7EB] text-[#212529] rounded-full px-4 py-2 text-sm font-semibold">GitHub Actions / Jenkins</span>
+                        <span class="inline-block bg-[#E5E7EB] text-[#212529] rounded-full px-4 py-2 text-sm font-semibold">Credential Vault</span>
+                        <span class="inline-block bg-[#E5E7EB] text-[#212529] rounded-full px-4 py-2 text-sm font-semibold">Artifact Storage</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-4">Fastlane's single, unified framework was the engine powering this transformation.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        (function() {
+            const chartColors = {
+                blue: '#0052CC',
+                teal: '#008DA8',
+                green: '#28A745',
+                orange: '#FD7E14',
+                gray: '#E5E7EB'
+            };
+
+            const tooltipCallback = {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            }
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                maintainAspectRatio: false,
+            };
+
+            const labels = ['Baseline', '30 Days Post', '90 Days Post', '180 Days Post'];
+
+            // 1. Release Lead Time Chart (Line Chart) - Data in Minutes (4hrs = 240 mins)
+            const timeCtx = document.getElementById('timeChart');
+            if (timeCtx) {
+                new Chart(timeCtx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Release Time (Minutes)',
+                            data: [240, 50, 45, 35],
+                            borderColor: chartColors.green,
+                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 6,
+                            pointHoverRadius: 8
+                        }]
+                    },
+                    options: {
+                        ...tooltipCallback,
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                reverse: true, 
+                                title: {
+                                    display: true,
+                                    text: 'Time (Minutes)',
+                                    color: chartColors.green
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // 2. Build Success Rate Chart (Line Chart)
+            const successCtx = document.getElementById('successChart');
+            if (successCtx) {
+                new Chart(successCtx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Success Rate (%)',
+                            data: [85, 95, 98, 99],
+                            borderColor: chartColors.blue,
+                            backgroundColor: 'rgba(0, 82, 204, 0.1)',
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 6,
+                            pointHoverRadius: 8
+                        }]
+                    },
+                    options: {
+                        ...tooltipCallback,
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                min: 80,
+                                max: 100,
+                                title: {
+                                    display: true,
+                                    text: 'Success Rate (%)',
+                                    color: chartColors.blue
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // 3. Signing Incidents Chart (Bar Chart)
+            const signingCtx = document.getElementById('signingChart');
+            if (signingCtx) {
+                new Chart(signingCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Incidents per Month',
+                            data: [4, 1, 0, 0],
+                            backgroundColor: [chartColors.orange, chartColors.blue, chartColors.green, chartColors.green],
+                            barThickness: 30
+                        }]
+                    },
+                    options: {
+                        ...tooltipCallback,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 5,
+                                title: {
+                                    display: true,
+                                    text: 'Incidents',
+                                    color: chartColors.orange
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+        })();
+    </script>
+
+</body>
+</html>

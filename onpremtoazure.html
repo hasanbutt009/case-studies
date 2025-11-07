@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study: .NET App Migration to Azure Cloud</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #F0F4F8;
+        color: #073B4C;
+      }
+      .card {
+        background-color: #FFFFFF;
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        padding: 1.5rem;
+      }
+      .stat-card {
+        border-top: 6px solid #118AB2;
+        padding: 1rem;
+        text-align: center;
+      }
+      .flow-step {
+        background-color: #E6F0F4;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        text-align: center;
+        border: 2px solid #118AB2;
+        min-height: 100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        transition: transform 0.2s;
+      }
+      .flow-step:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(17, 138, 178, 0.2);
+      }
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 380px;
+        max-height: 400px;
+        padding: 1rem;
+      }
+      @media (max-width: 768px) {
+        .chart-container {
+          height: 300px;
+          max-height: 320px;
+        }
+      }
+    </style>
+</head>
+<body class="bg-[#F0F4F8]">
+
+    <div class="container mx-auto p-4 md:p-10 max-w-7xl">
+
+        <header class="text-center my-8 md:my-16">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-[#073B4C] mb-4">Cloud Transformation: .NET to Azure</h1>
+            <p class="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto">
+                A Mid-Sized Software Company's successful migration from clunky on-premises infrastructure to a modern, scalable, and secure **Azure Cloud** environment.
+            </p>
+        </header>
+
+        <section id="the-problem" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-10 text-[#FF6B6B]">The Problem: Legacy Infrastructure Bottlenecks</h2>
+            <p class="text-lg text-gray-700 max-w-4xl mx-auto text-center mb-12">
+                The aging hardware and manual processes were crippling growth. The company was trapped in a cycle of high maintenance costs and constant firefighting instead of innovation.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card stat-card border-t-6 border-[#FF6B6B]">
+                    <div class="text-6xl font-black text-[#FF6B6B]">90%</div>
+                    <h3 class="text-xl font-semibold mt-2 text-[#073B4C]">Unreliable Uptime</h3>
+                    <p class="text-gray-600 text-sm mt-1">Frequent monthly outages and manual recovery methods limited business continuity.</p>
+                </div>
+                <div class="card stat-card border-t-6 border-[#FF6B6B]">
+                    <div class="text-6xl font-black text-[#FF6B6B]">500ms+</div>
+                    <h3 class="text-xl font-semibold mt-2 text-[#073B4C]">High Latency</h3>
+                    <p class="text-gray-600 text-sm mt-1">Slow page loads led to a poor user experience, especially during high-demand periods.</p>
+                </div>
+                <div class="card stat-card border-t-6 border-[#FF6B6B]">
+                    <div class="text-6xl font-black text-[#FF6B6B]">Weeks</div>
+                    <h3 class="text-xl font-semibold mt-2 text-[#073B4C]">Deployment Cycles</h3>
+                    <p class="text-gray-600 text-sm mt-1">Manual, slow deployment processes hindered innovation and delayed critical feature releases.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="the-solution" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-10 text-[#118AB2]">The Azure Solution Stack</h2>
+            <p class="text-lg text-gray-700 max-w-4xl mx-auto text-center mb-12">
+                By leveraging Platform-as-a-Service (PaaS) offerings, the .NET application gained auto-scaling, built-in resilience, and a massive reduction in management overhead.
+            </p>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <div class="card p-4 text-center border-b-4 border-[#118AB2]">
+                    <div class="text-4xl mb-2">💻</div>
+                    <p class="font-bold text-lg text-[#073B4C]">App Service</p>
+                    <p class="text-sm text-gray-600">Web App Hosting & Auto-Scaling</p>
+                </div>
+                <div class="card p-4 text-center border-b-4 border-[#118AB2]">
+                    <div class="text-4xl mb-2">🗄️</div>
+                    <p class="font-bold text-lg text-[#073B4C]">SQL Database</p>
+                    <p class="text-sm text-gray-600">High Availability & Managed Backups</p>
+                </div>
+                <div class="card p-4 text-center border-b-4 border-[#118AB2]">
+                    <div class="text-4xl mb-2">📦</div>
+                    <p class="font-bold text-lg text-[#073B4C]">Blob Storage</p>
+                    <p class="text-sm text-gray-600">Cost-Effective, Scalable File Storage</p>
+                </div>
+                <div class="card p-4 text-center border-b-4 border-[#118AB2]">
+                    <div class="text-4xl mb-2">🔒</div>
+                    <p class="font-bold text-lg text-[#073B4C]">Virtual Network</p>
+                    <p class="text-sm text-gray-600">Secure, Isolated Networking</p>
+                </div>
+                <div class="card p-4 text-center border-b-4 border-[#118AB2]">
+                    <div class="text-4xl mb-2">⏱️</div>
+                    <p class="font-bold text-lg text-[#073B4C]">Azure Monitor</p>
+                    <p class="text-sm text-gray-600">Centralized Performance Tracking</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="the-approach" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-10 text-[#06D6A0]">The Approach: Minimizing Risk in 4 Steps</h2>
+            <p class="text-lg text-gray-700 max-w-4xl mx-auto text-center mb-12">
+                A structured, phased migration plan based on the Microsoft Cloud Adoption Framework ensured a **minimal outage time (under 2 hours)**.
+            </p>
+            <div class="flex flex-col md:flex-row md:items-stretch justify-between gap-4">
+                <div class="flow-step flex-1">
+                    <div class="text-4xl mb-2 font-extrabold text-[#118AB2]">1</div>
+                    <h3 class="text-xl font-bold">Assess</h3>
+                    <p class="text-gray-600 text-sm">Scan infrastructure, identify dependencies with Azure Migrate, and plan strategy.</p>
+                </div>
+
+                <div class="flex items-center justify-center text-3xl font-bold text-[#118AB2] rotate-90 md:rotate-0">→</div>
+
+                <div class="flow-step flex-1">
+                    <div class="text-4xl mb-2 font-extrabold text-[#118AB2]">2</div>
+                    <h3 class="text-xl font-bold">Plan</h3>
+                    <p class="text-gray-600 text-sm">Design the Azure landing zone, including security, billing, and resource provisioning.</p>
+                </div>
+
+                <div class="flex items-center justify-center text-3xl font-bold text-[#118AB2] rotate-90 md:rotate-0">→</div>
+
+                <div class="flow-step flex-1">
+                    <div class="text-4xl mb-2 font-extrabold text-[#118AB2]">3</div>
+                    <h3 class="text-xl font-bold">Migrate</h3>
+                    <p class="text-gray-600 text-sm">Lift and shift (VMs), then replatform (PaaS). Execute cutover testing.</p>
+                </div>
+
+                <div class="flex items-center justify-center text-3xl font-bold text-[#118AB2] rotate-90 md:rotate-0">→</div>
+
+                <div class="flow-step flex-1 bg-[#06D6A0]/10 border-[#06D6A0]">
+                    <div class="text-4xl mb-2 font-extrabold text-[#06D6A0]">4</div>
+                    <h3 class="text-xl font-bold">Optimize</h3>
+                    <p class="text-gray-600 text-sm">Implement auto-scaling, cost controls, and fine-tune performance post-go-live.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="6-month-results" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-10 text-[#073B4C]">6-Month Post-Migration Performance Gains</h2>
+            <p class="text-lg text-gray-700 max-w-4xl mx-auto text-center mb-12">
+                The migration delivered continuous, measurable improvement, stabilizing at peak efficiency by the sixth month.
+            </p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <div class="card p-4">
+                    <h3 class="text-xl font-bold mb-4 text-[#118AB2] text-center">Cost Savings Trend vs. TCO</h3>
+                    <p class="text-gray-600 text-center text-sm mb-4">Savings increased month-over-month, reaching a **56% lower TCO** (Total Cost of Ownership) after 6 months.</p>
+                    <div class="chart-container">
+                        <canvas id="costSavingsChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card p-4">
+                    <h3 class="text-xl font-bold mb-4 text-[#06D6A0] text-center">Reliability & Speed Improvement</h3>
+                    <p class="text-gray-600 text-center text-sm mb-4">Uptime stabilized at 99%, while average latency dropped from 500ms to **under 200ms**.</p>
+                    <div class="chart-container">
+                        <canvas id="latencyUptimeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="key-benefits" class="my-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-10 text-[#073B4C]">The Key Wins</h2>
+            <p class="text-lg text-gray-700 max-w-4xl mx-auto text-center mb-12">
+                The transformation delivered immediate, tangible business value across operational efficiency and customer experience.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="card border-l-4 border-[#06D6A0] p-6">
+                    <div class="text-4xl font-extrabold text-[#06D6A0] mb-2">56%</div>
+                    <h3 class="text-xl font-semibold text-[#073B4C]">TCO Reduction</h3>
+                    <p class="text-gray-600 text-sm">Lower total cost of ownership over 3 years compared to managing on-premises hardware.</p>
+                </div>
+                <div class="card border-l-4 border-[#118AB2] p-6">
+                    <div class="text-4xl font-extrabold text-[#118AB2] mb-2">40%</div>
+                    <h3 class="text-xl font-semibold text-[#073B4C]">Page Load Speedup</h3>
+                    <p class="text-gray-600 text-sm">Optimized PaaS services and reduced network latency resulted in a significant UX boost.</p>
+                </div>
+                <div class="card border-l-4 border-[#FFC43D] p-6">
+                    <div class="text-4xl font-extrabold text-[#FFC43D] mb-2">99%</div>
+                    <h3 class="text-xl font-semibold text-[#073B4C]">Guaranteed Uptime</h3>
+                    <p class="text-gray-600 text-sm">High availability features of Azure SQL and App Service eliminated monthly outages.</p>
+                </div>
+                <div class="card border-l-4 border-[#FF6B6B] p-6">
+                    <div class="text-4xl font-extrabold text-[#FF6B6B] mb-2">2x</div>
+                    <h3 class="text-xl font-semibold text-[#073B4C]">Scalability Boost</h3>
+                    <p class="text-gray-600 text-sm">The application can now handle double the peak load using efficient auto-scaling.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center my-12 pt-8 border-t border-gray-300">
+            <h3 class="text-2xl font-bold mb-4 text-[#073B4C]">Ready to Supercharge Your .NET Application?</h3>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-6">
+                Don't let legacy infrastructure hold you back. Cloud migration isn't just a tech upgrade—it's a massive competitive advantage.
+            </p>
+            <a href="#" class="inline-block bg-[#073B4C] text-white font-bold py-3 px-8 rounded-lg text-lg shadow-lg hover:bg-[#118AB2] transition-colors">
+                Let's Discuss Your Cloud Strategy
+            </a>
+        </footer>
+
+    </div>
+
+    <script>
+        const chartColors = {
+            darkBlue: '#073B4C',
+            primaryBlue: '#118AB2',
+            successGreen: '#06D6A0',
+            warningYellow: '#FFC43D',
+            errorRed: '#FF6B6B',
+            lightGray: '#EFEFEF'
+        };
+
+        const chartLabels = ['Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5', 'Month 6'];
+
+        const tooltipCallback = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            } else {
+                              return label;
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    labels: {
+                        font: { family: 'Inter', size: 12 },
+                        color: chartColors.darkBlue
+                    }
+                }
+            },
+            maintainAspectRatio: false,
+        };
+
+        const lineChartOptions = (title) => ({
+            ...tooltipCallback,
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { color: chartColors.darkBlue },
+                    grid: { color: chartColors.lightGray },
+                    title: {
+                        display: true,
+                        text: title,
+                        color: chartColors.darkBlue,
+                        font: { size: 14, weight: '600' }
+                    }
+                },
+                x: {
+                    ticks: { color: chartColors.darkBlue, font: { size: 12, weight: '600' } },
+                    grid: { display: false }
+                }
+            }
+        });
+
+        const dualAxisChartOptions = () => ({
+            ...tooltipCallback,
+            responsive: true,
+            scales: {
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    min: 150,
+                    max: 400,
+                    ticks: { color: chartColors.errorRed },
+                    grid: { color: chartColors.lightGray },
+                    title: {
+                        display: true,
+                        text: 'Latency (ms)',
+                        color: chartColors.errorRed,
+                        font: { size: 14, weight: '600' }
+                    }
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    min: 90,
+                    max: 100,
+                    ticks: { color: chartColors.successGreen, callback: function(value) { return value + '%'; } },
+                    grid: { drawOnChartArea: false },
+                    title: {
+                        display: true,
+                        text: 'Uptime (%)',
+                        color: chartColors.successGreen,
+                        font: { size: 14, weight: '600' }
+                    }
+                },
+                x: {
+                    ticks: { color: chartColors.darkBlue, font: { size: 12, weight: '600' } },
+                    grid: { display: false }
+                }
+            }
+        });
+        
+        const costSavingsCtx = document.getElementById('costSavingsChart');
+        if (costSavingsCtx) {
+            new Chart(costSavingsCtx, {
+                type: 'line',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: 'Monthly Cost Savings (%)',
+                        data: [20, 30, 40, 45, 50, 56],
+                        borderColor: chartColors.primaryBlue,
+                        backgroundColor: chartColors.primaryBlue + '1A',
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: lineChartOptions('Cost Savings (%)')
+            });
+        }
+
+        const latencyUptimeCtx = document.getElementById('latencyUptimeChart');
+        if (latencyUptimeCtx) {
+            new Chart(latencyUptimeCtx, {
+                type: 'line',
+                data: {
+                    labels: chartLabels,
+                    datasets: [
+                        {
+                            label: 'Avg. Latency (ms)',
+                            data: [350, 300, 250, 220, 200, 190],
+                            borderColor: chartColors.errorRed,
+                            backgroundColor: chartColors.errorRed + '20',
+                            yAxisID: 'y',
+                            tension: 0.3,
+                            fill: false
+                        },
+                        {
+                            label: 'Uptime (%)',
+                            data: [95, 97, 98, 99, 99, 99],
+                            borderColor: chartColors.successGreen,
+                            backgroundColor: chartColors.successGreen + '20',
+                            yAxisID: 'y1',
+                            tension: 0.3,
+                            fill: false
+                        }
+                    ]
+                },
+                options: dualAxisChartOptions()
+            });
+        }
+    </script>
+</body>
+</html>
