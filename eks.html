@@ -1,0 +1,365 @@
+<!--
+INFOGRAPHIC DESIGN PLAN:
+1. Palette: Energetic & Playful (Primary: #FF6B6B, Secondary: #4ECDC4, Accent: #FFE66D, Text: #1A535C).
+2. Narrative: Monolith Pain Points -> Migration Strategy (Flow) -> Technical Wins -> Business Outcomes (Comparison).
+3. Visualization Choices (Strictly NO SVG/Mermaid JS):
+    - Monolith Load (Inform/Composition): Donut Chart (Chart.js/Canvas).
+    - MTTR Reduction (Compare/Change): Bar Chart (Chart.js/Canvas).
+    - Migration Flow (Organize): HTML/Tailwind Flexbox Diagram.
+    - Business Outcomes (Compare): Line/Bar Chart (Chart.js/Canvas).
+
+CRITICAL CONFIRMATION: NEITHER SVG NOR MERMAID JS WERE USED. All graphics are Chart.js (Canvas) or structured HTML/CSS.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopDev EKS Resilience Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+        .font-main { font-family: 'Inter', sans-serif; }
+        .bg-primary { background-color: #FF6B6B; }
+        .text-primary { color: #FF6B6B; }
+        .bg-secondary { background-color: #4ECDC4; }
+        .text-secondary { color: #4ECDC4; }
+        .bg-accent { background-color: #FFE66D; }
+        .text-text { color: #1A535C; }
+        .bg-card { background-color: #ffffff; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            /* Constrain max width for readability on large screens */
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            /* Responsive Height Control */
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="font-main bg-gray-50 text-text p-4 md:p-8">
+
+    <!-- Header Section -->
+    <header class="text-center mb-12 p-6 rounded-xl shadow-lg bg-primary text-white">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-2">EKS Resilience: The ShopDev Transformation</h1>
+        <p class="text-xl opacity-90">From Monolith Vulnerability to Microservices Mastery</p>
+    </header>
+
+    <main class="max-w-7xl mx-auto">
+        
+        <!-- Key Performance Indicators (KPI) Cards -->
+        <section id="kpis" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <!-- Card 1: Downtime Reduction -->
+            <div class="bg-card rounded-xl shadow-xl p-6 text-center border-t-4 border-secondary transition-transform hover:scale-[1.02]">
+                <p class="text-5xl font-bold text-secondary">90%</p>
+                <p class="text-sm uppercase tracking-wider mt-2 text-gray-500">Downtime Reduction</p>
+            </div>
+            <!-- Card 2: Peak Traffic Capacity -->
+            <div class="bg-card rounded-xl shadow-xl p-6 text-center border-t-4 border-primary transition-transform hover:scale-[1.02]">
+                <p class="text-5xl font-bold text-primary">150%</p>
+                <p class="text-sm uppercase tracking-wider mt-2 text-gray-500">Peak Traffic Capacity Increase</p>
+            </div>
+            <!-- Card 3: Response Time Improvement -->
+            <div class="bg-card rounded-xl shadow-xl p-6 text-center border-t-4 border-secondary transition-transform hover:scale-[1.02]">
+                <p class="text-5xl font-bold text-secondary">200ms</p>
+                <p class="text-sm uppercase tracking-wider mt-2 text-gray-500">Average Response Time (Post-Migration)</p>
+            </div>
+            <!-- Card 4: Deployment Frequency -->
+            <div class="bg-card rounded-xl shadow-xl p-6 text-center border-t-4 border-primary transition-transform hover:scale-[1.02]">
+                <p class="text-5xl font-bold text-primary">Daily</p>
+                <p class="text-sm uppercase tracking-wider mt-2 text-gray-500">Deployment Frequency (Automated)</p>
+            </div>
+        </section>
+
+        <!-- Section 1: Monolith Pain Points and Inefficiency -->
+        <section id="pain-points" class="mb-16">
+            <h2 class="text-3xl font-bold mb-4 border-b-2 border-primary pb-2">1. The Cost of the Monolith</h2>
+            <p class="mb-8 text-lg">ShopDev's legacy monolith, running on ECS, suffered from critical flaws: cascading failures, high maintenance costs, and resource wastage. The monolithic design meant the entire application had to scale, even when only a fraction of its components was under load.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                <!-- Data Visualization: Monolith Load Distribution (Donut Chart) -->
+                <div class="md:col-span-2 bg-card rounded-xl shadow-lg p-6 flex flex-col items-center">
+                    <h3 class="text-xl font-semibold mb-4">Monolith Resource Allocation Inefficiency</h3>
+                    <div class="chart-container">
+                        <canvas id="monolithLoadChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-600">During peak spikes (90% utilization), only 30% of the codebase was actively handling traffic, leading to massive over-provisioning of 70% of resources.</p>
+                </div>
+
+                <!-- Qualitative Analysis: Failure Cost -->
+                <div class="bg-card rounded-xl shadow-lg p-6 border-l-4 border-accent h-full flex flex-col justify-center">
+                    <h3 class="text-xl font-semibold text-text mb-3">Impact & Risk</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start">
+                            <span class="text-primary text-xl mr-2">🔥</span>
+                            <span>**Lost Revenue:** Estimated **$50,000** per major outage incident.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-primary text-xl mr-2">📉</span>
+                            <span>**User Churn:** 15% user churn rate during critical downtime periods.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-primary text-xl mr-2">⏱️</span>
+                            <span>**Slow Releases:** Average two-week release cycles due to high deployment risk.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Migration Strategy (Flow Chart) -->
+        <section id="strategy" class="mb-16">
+            <h2 class="text-3xl font-bold mb-4 border-b-2 border-primary pb-2">2. The Strangler Pattern Migration Flow</h2>
+            <p class="mb-8 text-lg">The move to EKS microservices was executed over six months using the low-risk **Strangler Application Pattern**. This phased approach ensured continuous operation while new, isolated services took over bounded contexts.</p>
+            
+            <!-- Flow Chart Diagram (HTML/Tailwind only) -->
+            <div class="bg-card rounded-xl shadow-lg p-8">
+                <div class="flex flex-col md:flex-row justify-between items-stretch space-y-8 md:space-y-0 md:space-x-4">
+
+                    <!-- Step 1 -->
+                    <div class="flex-1 p-4 rounded-lg bg-primary text-white text-center shadow-md">
+                        <p class="font-bold text-lg">Phase 1: Decomposition</p>
+                        <p class="text-sm mt-1">Identify bounded contexts (e.g., Auth, Catalog, Cart). Refactor into independent microservices with dedicated databases (RDS).</p>
+                    </div>
+
+                    <div class="flex md:flex-col justify-center items-center w-full md:w-auto h-4 md:h-auto">
+                        <div class="w-full h-1 md:w-1 md:h-full bg-secondary"></div>
+                        <div class="w-3 h-3 bg-secondary rounded-full"></div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="flex-1 p-4 rounded-lg bg-secondary text-white text-center shadow-md">
+                        <p class="font-bold text-lg">Phase 2: Strangling & Routing</p>
+                        <p class="text-sm mt-1">Deploy new services on EKS. Use Amazon API Gateway to redirect specific domain traffic from the monolith to the new service.</p>
+                    </div>
+                    
+                    <div class="flex md:flex-col justify-center items-center w-full md:w-auto h-4 md:h-auto">
+                        <div class="w-full h-1 md:w-1 md:h-full bg-secondary"></div>
+                        <div class="w-3 h-3 bg-secondary rounded-full"></div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="flex-1 p-4 rounded-lg bg-primary text-white text-center shadow-md">
+                        <p class="font-bold text-lg">Phase 3: Decoupling</p>
+                        <p class="text-sm mt-1">Once all traffic is successfully migrated and the new service is stable, the legacy monolithic code is decommissioned (strangled).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Technical Resilience and MTTR Reduction -->
+        <section id="technical-wins" class="mb-16">
+            <h2 class="text-3xl font-bold mb-4 border-b-2 border-primary pb-2">3. Resilience Engineering: EKS & Istio</h2>
+            <p class="mb-8 text-lg">Implementing Kubernetes-native features and the Istio service mesh allowed ShopDev to achieve true failure isolation and minimize recovery time from minutes to seconds.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Chart: MTTR Reduction -->
+                <div class="bg-card rounded-xl shadow-lg p-6 flex flex-col items-center">
+                    <h3 class="text-xl font-semibold mb-4">Mean Time To Recovery (MTTR) Comparison</h3>
+                    <div class="chart-container">
+                        <canvas id="mttrChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-600">Automated Liveness and Readiness probes ensured fast detection and auto-remediation (e.g., a memory leak fixed within 30 seconds), dramatically slashing recovery time.</p>
+                </div>
+
+                <!-- Feature Breakdown -->
+                <div class="bg-card rounded-xl shadow-lg p-6 border-t-4 border-secondary h-full">
+                    <h3 class="text-xl font-semibold text-text mb-4">Key Resilience Mechanisms</h3>
+                    <div class="space-y-4">
+                        <div class="p-3 bg-gray-50 rounded-lg shadow-inner">
+                            <p class="font-bold text-secondary flex items-center"><span class="text-2xl mr-2">🛡️</span> Istio Service Mesh</p>
+                            <ul class="list-disc ml-6 text-sm mt-1 text-gray-700">
+                                <li>**Circuit Breaking:** Stops traffic to failing services instantly.</li>
+                                <li>**mTLS Enforcement:** Encrypts all inter-pod communication.</li>
+                            </ul>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg shadow-inner">
+                            <p class="font-bold text-primary flex items-center"><span class="text-2xl mr-2">⚙️</span> Kubernetes Features</p>
+                            <ul class="list-disc ml-6 text-sm mt-1 text-gray-700">
+                                <li>**HPA/VPA:** Granular, dynamic scaling based on CPU utilization (target 60%).</li>
+                                <li>**Canary Deployments:** Reduced deployment risk by routing 10% traffic to new versions first.</li>
+                            </ul>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg shadow-inner">
+                            <p class="font-bold text-accent flex items-center"><span class="text-2xl mr-2">🔍</span> Observability</p>
+                            <ul class="list-disc ml-6 text-sm mt-1 text-gray-700">
+                                <li>**Distributed Tracing (Jaeger):** Identified and optimized 200ms latency issue.</li>
+                                <li>**Centralized Logging (OpenSearch):** Proactive resolution of issues like misconfigured API keys.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Final Business Outcomes (Comparison Chart) -->
+        <section id="outcomes" class="mb-16 md:col-span-2">
+            <h2 class="text-3xl font-bold mb-4 border-b-2 border-primary pb-2">4. Quantifiable Business Impact</h2>
+            <p class="mb-8 text-lg">The transformation was a resounding success, not just stabilizing the platform, but turning operational stability into measurable business growth and efficiency.</p>
+
+            <!-- Chart: Key Improvement Metrics -->
+            <div class="bg-card rounded-xl shadow-lg p-6 flex flex-col items-center">
+                <h3 class="text-xl font-semibold mb-4">Core Improvement Metrics Post-Migration</h3>
+                <div class="chart-container">
+                    <canvas id="improvementChart"></canvas>
+                </div>
+                <p class="mt-4 text-sm text-gray-600">By reducing downtime and improving performance, user satisfaction increased by 25% (via NPS), directly contributing to a 15% revenue growth due to reduced churn.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center mt-12 pt-6 border-t border-gray-200 text-gray-500 text-sm">
+        <p>Case Study Summary: ShopDev EKS Microservice Modernization. Data synthesized from technical report (2023).</p>
+    </footer>
+
+    <script>
+        const PRIMARY = '#FF6B6B';
+        const SECONDARY = '#4ECDC4';
+        const ACCENT = '#FFE66D';
+        const TEXT = '#1A535C';
+
+        // --- Chart.js Label Wrapping Utility ---
+        function wrapLabel(label, maxCharsPerLine = 16) {
+            if (label.length <= maxCharsPerLine) return label;
+            
+            const words = label.split(' ');
+            let currentLine = '';
+            const lines = [];
+
+            words.forEach(word => {
+                if ((currentLine + ' ' + word).length > maxCharsPerLine && currentLine.length > 0) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = currentLine ? currentLine + ' ' + word : word;
+                }
+            });
+            lines.push(currentLine.trim());
+            return lines;
+        }
+
+        // --- Universal Tooltip Configuration (REQUIRED) ---
+        const universalTooltipConfig = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            } else {
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        // --- Chart 1: Monolith Load Inefficiency (Donut Chart) ---
+        new Chart(document.getElementById('monolithLoadChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Over-Provisioned Resources (Waste)', 'Active Load'],
+                datasets: [{
+                    data: [70, 30],
+                    backgroundColor: [PRIMARY, SECONDARY],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                ...universalTooltipConfig,
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: { position: 'bottom' },
+                    title: { display: false }
+                }
+            }
+        });
+
+        // --- Chart 2: MTTR Reduction (Bar Chart) ---
+        new Chart(document.getElementById('mttrChart'), {
+            type: 'bar',
+            data: {
+                labels: [wrapLabel('Before Migration (Average MTTR in Minutes)'), wrapLabel('After EKS Automation (MTTR in Minutes)')],
+                datasets: [{
+                    label: 'MTTR in Minutes',
+                    data: [240, 2], // 4 hours to 2 minutes
+                    backgroundColor: [PRIMARY, SECONDARY],
+                }]
+            },
+            options: {
+                ...universalTooltipConfig,
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Time in Minutes' }
+                    },
+                    y: {
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    title: { display: false }
+                }
+            }
+        });
+
+        // --- Chart 3: Core Improvement Metrics (Comparison Bar Chart) ---
+        new Chart(document.getElementById('improvementChart'), {
+            type: 'bar',
+            data: {
+                labels: [
+                    wrapLabel('Downtime Reduction (%)'),
+                    wrapLabel('Avg. Response Time Improv. (%)'),
+                    wrapLabel('EKS Cost Reduction (%)')
+                ],
+                datasets: [
+                    {
+                        label: 'Improvement Percentage',
+                        data: [90, 60, 25],
+                        backgroundColor: [SECONDARY, PRIMARY, ACCENT],
+                    }
+                ]
+            },
+            options: {
+                ...universalTooltipConfig,
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: { callback: (value) => value + '%' },
+                        title: { display: true, text: 'Percentage Improvement' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    title: { display: false }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
