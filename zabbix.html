@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proactive Monitoring Infographic</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+        /* Specific Material Design-like styling */
+        .card {
+            background-color: white;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-lg */
+            padding: 1.5rem; /* p-6 */
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+        /* Crucial Chart Container Styling for responsiveness and max-width control */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 350px; /* Base height for MD/LG screens */
+            max-width: 750px; /* Limits max chart width on very large screens */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px; /* Smaller height for mobile */
+            }
+        }
+        /* Custom font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-accent': '#FF6384',
+                        'secondary-accent': '#36A2EB',
+                        'tertiary-accent': '#FFCE56',
+                        'quaternary-accent': '#4BC0C0',
+                        'background-light': '#f3f4f6',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background-light text-gray-800 antialiased min-h-screen">
+    <!-- Energetic & Playful Palette: #FF6384, #36A2EB, #FFCE56, #4BC0C0 -->
+    <!-- Narrative Plan: 1. Core Challenge (Blind Spots) 2. Key Metrics/Comparison (Reactive vs Proactive) 3. Solution Flow (Log Integration) 4. Business Value (MTTR Reduction) -->
+
+    <div class="container mx-auto px-4 py-12">
+
+        <!-- Header and Lead Section -->
+        <header class="text-center mb-16">
+            <h1 class="text-5xl font-extrabold text-primary-accent mb-3 tracking-tight">
+                ZABBIX: The Proactive IT Transformation
+            </h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Shifting 60 diverse servers from reactive firefighting to resilient, observable operations through centralized monitoring and deep log analysis.
+            </p>
+        </header>
+
+        <!-- Section 1: The Core Challenge (Inform) -->
+        <section id="challenge" class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-primary-accent pb-2">1. The Reactive Blind Spot</h2>
+            <p class="text-lg mb-8 max-w-4xl mx-auto">
+                Before Zabbix, service failures were discovered by **user complaints**, leading to high friction and wasted engineering time. Data was **siloed**, preventing quick correlation of system load and application errors.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <!-- KPI Card 1 -->
+                <div class="card bg-primary-accent/10 border-l-4 border-primary-accent">
+                    <div class="text-5xl font-extrabold text-primary-accent">~60</div>
+                    <p class="text-sm font-medium text-gray-600 mt-2">Servers Monitored (Linux/Windows Mix)</p>
+                </div>
+
+                <!-- KPI Card 2 -->
+                <div class="card bg-secondary-accent/10 border-l-4 border-secondary-accent">
+                    <div class="text-5xl font-extrabold text-secondary-accent">Siloed</div>
+                    <p class="text-sm font-medium text-gray-600 mt-2">State of System Metrics vs. App Logs</p>
+                </div>
+
+                <!-- KPI Card 3 -->
+                <div class="card bg-tertiary-accent/10 border-l-4 border-tertiary-accent">
+                    <div class="text-5xl font-extrabold text-tertiary-accent">High</div>
+                    <p class="text-sm font-medium text-gray-600 mt-2">Mean Time to Resolution (MTTR)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Comparing Reactive vs. Proactive (Compare) -->
+        <section id="comparison" class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-primary-accent pb-2">2. Impact of Operational Shift</h2>
+            <p class="text-lg mb-8 max-w-4xl mx-auto">
+                The shift moved problem discovery from the user (external) to the system (internal), dramatically improving our incident response efficiency and stability.
+            </p>
+
+            <div class="card md:col-span-2">
+                <h3 class="text-xl font-semibold mb-4 text-primary-accent">Reactive vs. Proactive Problem Discovery</h3>
+                <div class="chart-container">
+                    <canvas id="discoveryChart"></canvas>
+                </div>
+                <p class="text-sm text-gray-500 mt-4">
+                    **Key Takeaway:** Alerts are now triggered by machine states and log keywords (Zabbix), not post-mortem analysis (Manual SSH) or customer reports (User Complaint). This enables proactive swarming.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 3: The Log Monitoring Game-Changer (Organize / Flow) -->
+        <section id="solution" class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-primary-accent pb-2">3. Solution Deep Dive: Log Aggregation Flow</h2>
+            <p class="text-lg mb-8 max-w-4xl mx-auto">
+                The Zabbix agent was configured to stream deep application logs, providing instant application-level context where before there was only system data. This is the **game-changer**.
+            </p>
+
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-6 text-secondary-accent">Data Collection and Trigger Process</h3>
+                <!-- Custom HTML/CSS Flowchart (NO SVG) -->
+                <div class="flex flex-col items-center space-y-4">
+                    
+                    <!-- Step 1: Data Source -->
+                    <div class="flex space-x-4">
+                        <div class="bg-gray-100 p-3 rounded-lg border-2 border-gray-300 text-center font-medium">
+                            Linux Logs (journalctl)
+                        </div>
+                        <div class="bg-gray-100 p-3 rounded-lg border-2 border-gray-300 text-center font-medium">
+                            Container Logs (Docker)
+                        </div>
+                    </div>
+                    
+                    <!-- Arrow -->
+                    <div class="h-6 w-0 border-r-2 border-secondary-accent"></div>
+                    <div class="w-3 h-3 bg-secondary-accent transform rotate-45 -mt-3"></div>
+
+                    <!-- Step 2: Collection Agent -->
+                    <div class="bg-secondary-accent text-white p-4 rounded-full text-center font-bold shadow-md">
+                        Zabbix Agent
+                        <div class="text-xs font-normal">Active Log Monitoring</div>
+                    </div>
+                    
+                    <!-- Arrow -->
+                    <div class="h-6 w-0 border-r-2 border-secondary-accent"></div>
+                    <div class="w-3 h-3 bg-secondary-accent transform rotate-45 -mt-3"></div>
+
+                    <!-- Step 3: Central Server -->
+                    <div class="bg-tertiary-accent/80 text-gray-900 p-4 rounded-lg text-center font-bold shadow-md">
+                        Zabbix Server
+                        <div class="text-xs font-normal">Correlates Logs & Metrics</div>
+                    </div>
+                    
+                    <!-- Arrow -->
+                    <div class="h-6 w-0 border-r-2 border-secondary-accent"></div>
+                    <div class="w-3 h-3 bg-secondary-accent transform rotate-45 -mt-3"></div>
+
+                    <!-- Step 4: Alert Condition -->
+                    <div class="bg-primary-accent text-white p-4 rounded-lg text-center font-bold shadow-xl">
+                        Trigger Condition Met
+                        <div class="text-xs font-normal">Scans for "FATAL" or "Exception"</div>
+                    </div>
+                    
+                    <!-- Arrow -->
+                    <div class="h-6 w-0 border-r-2 border-secondary-accent"></div>
+                    <div class="w-3 h-3 bg-secondary-accent transform rotate-45 -mt-3"></div>
+
+                    <!-- Step 5: Multi-Channel Alerting -->
+                    <div class="flex space-x-6">
+                        <div class="bg-primary-accent/10 p-3 rounded-lg border-2 border-primary-accent text-center font-medium">
+                            CRITICAL (Teams)
+                        </div>
+                        <div class="bg-primary-accent/10 p-3 rounded-lg border-2 border-primary-accent text-center font-medium">
+                            WARNING (Email)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Business Value & Outcome (Inform / Distribution) -->
+        <section id="value" class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-700 mb-6 border-b-2 border-primary-accent pb-2">4. Business Value: Drastically Reduced MTTR</h2>
+            <p class="text-lg mb-8 max-w-4xl mx-auto">
+                Instant notification of the **exact log line** and server context eliminates manual investigation, allowing engineers to focus on the fix.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Data Point: MTTR Component Breakdown -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold mb-4 text-secondary-accent">MTTR Breakdown: Before vs. After</h3>
+                    <div class="chart-container">
+                        <canvas id="mttrChart"></canvas>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-4">
+                        **Key Takeaway:** The time spent on **"Investigation"** (manual SSH and log searching) is nearly eliminated, driving down overall resolution time.
+                    </p>
+                </div>
+
+                <!-- Data Point: Alerting Distribution -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold mb-4 text-tertiary-accent">Alert Channel Distribution (Post-Implementation)</h3>
+                    <div class="chart-container">
+                        <canvas id="alertDistributionChart"></canvas>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-4">
+                        **Key Takeaway:** Critical alerts (Teams) are tightly controlled for low-volume, high-impact events, avoiding the operational drag of "alert fatigue."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Helper function for required label wrapping logic (split lines around ~16 characters)
+            function wrapLabel(label) {
+                if (label.length <= 16) {
+                    return label;
+                }
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                words.forEach(word => {
+                    if ((currentLine + ' ' + word).length > 16 && currentLine.length > 0) {
+                        lines.push(currentLine);
+                        currentLine = word;
+                    } else {
+                        currentLine = currentLine ? (currentLine + ' ' + word) : word;
+                    }
+                });
+                if (currentLine) {
+                    lines.push(currentLine);
+                }
+                return lines;
+            }
+
+            // Universal Tooltip Configuration Requirement
+            const universalTooltipConfig = {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            }
+                        }
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            };
+
+
+            // --- Chart 1: Reactive vs. Proactive Problem Discovery (Bar Chart - Compare) ---
+            const discoveryLabels = [
+                'User Complaint', 
+                'Manual SSH/Log Review', 
+                'Zabbix Log Keyword Match', 
+                'Zabbix System Metric Threshold'
+            ].map(wrapLabel);
+            const discoveryCtx = document.getElementById('discoveryChart').getContext('2d');
+            new Chart(discoveryCtx, {
+                type: 'bar',
+                data: {
+                    labels: discoveryLabels,
+                    datasets: [
+                        {
+                            label: 'Discovery Before Zabbix',
+                            data: [50, 40, 0, 10], // Mock Data (Prevalence as % of issues)
+                            backgroundColor: '#FF6384',
+                            borderColor: '#FF6384',
+                            borderWidth: 1,
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'Discovery After Zabbix',
+                            data: [5, 5, 45, 45], // Mock Data
+                            backgroundColor: '#36A2EB',
+                            borderColor: '#36A2EB',
+                            borderWidth: 1,
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    ...universalTooltipConfig,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Incidents Discovered (%)'
+                            }
+                        }
+                    }
+                }
+            });
+
+
+            // --- Chart 2: MTTR Breakdown (Stacked Bar Chart - Composition/Change) ---
+            const mttrLabels = ['Reactive (Before)', 'Proactive (After)'].map(wrapLabel);
+            const mttrCtx = document.getElementById('mttrChart').getContext('2d');
+            new Chart(mttrCtx, {
+                type: 'bar',
+                data: {
+                    labels: mttrLabels,
+                    datasets: [
+                        {
+                            label: 'Investigation & Diagnosis (Log Search, SSH)',
+                            data: [70, 10], // Mock minutes/relative time
+                            backgroundColor: '#FF6384',
+                        },
+                        {
+                            label: 'Notification & Alerting Delay',
+                            data: [10, 5], // Mock minutes/relative time
+                            backgroundColor: '#FFCE56',
+                        },
+                        {
+                            label: 'Resolution (Fixing the Code/Config)',
+                            data: [20, 15], // Mock minutes/relative time
+                            backgroundColor: '#4BC0C0',
+                        }
+                    ]
+                },
+                options: {
+                    ...universalTooltipConfig,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            stacked: true,
+                            title: {
+                                display: true,
+                                text: 'Relative Time (Minutes)'
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                        }
+                    }
+                }
+            });
+
+
+            // --- Chart 3: Alert Channel Distribution (Doughnut Chart - Composition) ---
+            const alertDistributionCtx = document.getElementById('alertDistributionChart').getContext('2d');
+            new Chart(alertDistributionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Critical Alerts (Teams)', 'Warning/Info Alerts (Email)', 'Routine Reports (Zabbix UI)'].map(wrapLabel),
+                    datasets: [{
+                        data: [15, 30, 55], // Mock Data (Percentage of total notifications)
+                        backgroundColor: [
+                            '#FF6384',
+                            '#36A2EB',
+                            '#FFCE56'
+                        ],
+                        hoverBackgroundColor: [
+                            '#E75A77',
+                            '#3292D3',
+                            '#E6BB4D'
+                        ]
+                    }]
+                },
+                options: {
+                    ...universalTooltipConfig,
+                    cutout: '70%',
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+<!-- CRITICAL CONFIRMATION: Neither Mermaid JS nor SVG were used in this output. All visualizations are Chart.js on Canvas, and diagrams are structured HTML/CSS. -->
+<!-- Narrative Plan Summary: 1. Core Challenge (Blind Spots) using KPIs. 2. Comparison (Reactive vs Proactive) using a Bar Chart. 3. Solution Flow (Log Integration) using an HTML/CSS Flowchart. 4. Business Value (MTTR Reduction & Alert Distribution) using Stacked Bar and Doughnut charts. -->
+<!-- Visualization Choices Summary: 
+1. The Core Challenge: Goal is INFORM -> Used 3 large HTML/Tailwind KPI cards (NO SVG).
+2. Operational Shift: Goal is COMPARE -> Used Bar Chart (Chart.js/Canvas). Justification: Clearly shows value difference between two groups across four categories.
+3. Solution Flow: Goal is ORGANIZE/PROCESS -> Used Structured HTML/CSS with Tailwind (NO SVG, NO MERMAID JS). Justification: Simple block flow is best handled by native HTML structure.
+4. MTTR Breakdown: Goal is COMPOSITION/CHANGE -> Used Stacked Bar Chart (Chart.js/Canvas). Justification: Visually demonstrates how the relative time component of "Investigation" shrinks post-Zabbix.
+5. Alert Distribution: Goal is COMPOSITION -> Used Doughnut Chart (Chart.js/Canvas). Justification: Excellent for showing simple proportional parts of a whole (alert volume segmentation). -->

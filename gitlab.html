@@ -1,0 +1,408 @@
+<!--
+INFOGRAPHIC PLAN SUMMARY:
+Source Material: Hypothetical 'DevOps Case Study: On-Prem GitLab Migration'
+Narrative Flow: Fragmented Challenge -> Strategic 3-Phase Migration -> Quantifiable Results (Speed, Security) -> Future Outlook.
+Chosen Palette: Brilliant Blues (Primary: #2E86C1, Accent: #A9CCE3, Dark: #1A5276, Light BG: #F8FCFF).
+
+VISUALIZATION SELECTION SUMMARY:
+1. Fragmented Toolchain (Data Point: 8 redundant tools) -> Goal: Organize -> Chosen Vis: HTML/Tailwind Overlap Diagram (NO SVG).
+2. Migration Phases (Data Point: Phase 1, 2, 3 steps) -> Goal: Organize -> Chosen Vis: HTML/Tailwind Timeline/Flowchart (NO SVG).
+3. Pipeline Speed (Data Point: Avg build time Pre/Post) -> Goal: Compare -> Chosen Vis: Chart.js Bar Chart.
+4. Vulnerabilities (Data Point: Trend over 6 months) -> Goal: Change -> Chosen Vis: Chart.js Line Chart.
+5. Tool Consolidation (Data Point: 6 out of 8 tools consolidated) -> Goal: Inform -> Chosen Vis: Chart.js Donut Chart.
+
+CONSTRAINT CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in the output. All charts use Chart.js/Canvas.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitLab Migration Infographic: DevOps Efficiency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script>
+        // Use Inter font and Brilliant Blues palette colors
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#2E86C1', // Primary Blue
+                        'accent-blue': '#A9CCE3',  // Accent Light Blue
+                        'dark-blue': '#1A5276',    // Dark Blue Text/Headers
+                        'bg-light': '#F8FCFF',     // Very Light Blue BG
+                        'bg-page': '#EBF5FB',      // Page Background
+                        'success-green': '#2ECC71',
+                        'warning-orange': '#F39C12',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom CSS for Chart Container Sizing and Responsiveness -->
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            /* Base height for MD/desktop view */
+            height: 350px;
+            max-height: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            /* Applying Material Design shadow */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-radius: 0.75rem; /* rounded-xl */
+        }
+        /* Adjust height for mobile screens */
+        @media (max-width: 767px) {
+            .chart-container {
+                height: 300px;
+                max-height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-bg-page text-dark-blue font-sans antialiased pb-12">
+
+    <!-- Header Section -->
+    <header class="bg-primary-blue text-white py-12 shadow-lg mb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-5xl font-extrabold mb-2 tracking-tight">The DevOps Sovereignty Shift</h1>
+            <p class="text-xl font-light opacity-90">Case Study: 3-Phase On-Prem GitLab Migration for Enhanced Security & Speed</p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section 1: Key Performance Indicators -->
+        <section class="mb-12">
+            <h2 class="text-4xl font-bold mb-8 text-center text-primary-blue">Impact at a Glance</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-bg-light p-8 rounded-xl shadow-xl border-t-4 border-success-green text-center">
+                    <p class="text-6xl font-extrabold text-success-green">45%</p>
+                    <p class="text-lg font-medium mt-2">Reduction in Average Pipeline Build Time</p>
+                </div>
+                <div class="bg-bg-light p-8 rounded-xl shadow-xl border-t-4 border-primary-blue text-center">
+                    <p class="text-6xl font-extrabold text-primary-blue">8/10</p>
+                    <p class="text-lg font-medium mt-2">Fragmented Tools Consolidated into GitLab</p>
+                </div>
+                <div class="bg-bg-light p-8 rounded-xl shadow-xl border-t-4 border-warning-orange text-center">
+                    <p class="text-6xl font-extrabold text-warning-orange">92%</p>
+                    <p class="text-lg font-medium mt-2">Improvement in Security Vulnerability Triage Time</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: The Fragmentation Challenge -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 pt-4 border-b border-accent-blue pb-2 text-dark-blue">1. The Challenge: Cloud Toolchain Fragmentation</h2>
+            <p class="text-lg mb-8 text-gray-700 leading-relaxed">
+                Prior to the migration, the team suffered from **toolchain sprawl**, utilizing over 10 different cloud services and open-source solutions for various stages (SCM, CI/CD, Artifact Registry, Security Scanning). This resulted in excessive context switching, costly license fees, and significant security gaps due to poor integration and data sovereignty issues. The primary goal was to simplify the stack while maintaining full control over the code and data.
+            </p>
+
+            <!-- Tool Fragmentation Diagram (HTML/CSS ONLY) -->
+            <div class="bg-bg-light p-8 rounded-xl shadow-xl grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="md:col-span-1 text-center flex flex-col justify-center">
+                    <p class="text-2xl font-semibold mb-4 text-primary-blue">8 Redundant Tools Replaced</p>
+                    <p class="text-md text-gray-600">The shift eliminated friction between code, pipelines, security, and project management tools.</p>
+                </div>
+                <div class="md:col-span-2 relative flex flex-wrap items-center justify-center p-4 bg-white rounded-lg border border-accent-blue min-h-[250px]">
+                    <span class="absolute top-2 left-2 text-primary-blue text-sm font-bold">FRAGMENTED TOOLCHAIN</span>
+                    <div class="relative w-full h-full flex items-center justify-center">
+                        <div class="absolute w-40 h-40 bg-red-100/70 rounded-full border-2 border-red-500 flex items-center justify-center -translate-x-12 z-10 opacity-80 shadow-md">
+                            <p class="text-red-800 text-sm font-semibold">SCM & Review</p>
+                        </div>
+                        <div class="absolute w-40 h-40 bg-yellow-100/70 rounded-full border-2 border-yellow-500 flex items-center justify-center translate-x-12 translate-y-12 z-10 opacity-80 shadow-md">
+                            <p class="text-yellow-800 text-sm font-semibold">CI/CD Engine</p>
+                        </div>
+                        <div class="absolute w-40 h-40 bg-green-100/70 rounded-full border-2 border-green-500 flex items-center justify-center -translate-y-12 z-10 opacity-80 shadow-md">
+                            <p class="text-green-800 text-sm font-semibold">Security Scanning</p>
+                        </div>
+                        <div class="absolute w-24 h-24 bg-primary-blue/20 rounded-full border-2 border-dark-blue flex items-center justify-center shadow-lg">
+                            <p class="text-dark-blue text-xs font-bold">CONTEXT SWITCH</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Strategic Migration Process -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 pt-4 border-b border-accent-blue pb-2 text-dark-blue">2. Strategic Migration: The 3-Phase Plan</h2>
+            <p class="text-lg mb-8 text-gray-700 leading-relaxed">
+                The shift was implemented methodically over a 4-month period to minimize downtime and risk. The plan focused on a lift-and-shift of repositories first, followed by CI/CD pipeline refactoring, and finally, security integration and governance.
+            </p>
+
+            <!-- Flow Chart (HTML/CSS ONLY) -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Phase 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-primary-blue transition duration-300 hover:shadow-2xl">
+                    <p class="text-sm font-bold text-primary-blue mb-1">PHASE 1 (Month 1)</p>
+                    <h3 class="text-xl font-extrabold mb-3">Data & SCM Sovereignty</h3>
+                    <ul class="space-y-2 text-gray-700 list-disc list-inside">
+                        <li>Infrastructure provisioning for On-Prem servers.</li>
+                        <li>Migrate 100% of Git repositories.</li>
+                        <li>Establish basic user authentication (LDAP/AD sync).</li>
+                    </ul>
+                </div>
+                <!-- Separator (Arrow simulation) -->
+                <div class="hidden lg:flex items-center justify-center">
+                    <div class="w-10 h-2 bg-primary-blue rounded-full"></div>
+                    <div class="w-0 h-0 border-t-4 border-b-4 border-t-transparent border-b-transparent border-l-[12px] border-l-primary-blue"></div>
+                </div>
+
+                <!-- Phase 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-primary-blue transition duration-300 hover:shadow-2xl">
+                    <p class="text-sm font-bold text-primary-blue mb-1">PHASE 2 (Month 2-3)</p>
+                    <h3 class="text-xl font-extrabold mb-3">Pipeline Refactoring & CI/CD</h3>
+                    <ul class="space-y-2 text-gray-700 list-disc list-inside">
+                        <li>Refactor 85% of legacy Jenkins/Travis pipelines to GitLab CI.</li>
+                        <li>Migrate container registry and artifact storage.</li>
+                        <li>Run parallel testing for 3 key applications.</li>
+                    </ul>
+                </div>
+                <!-- Separator (Arrow simulation) -->
+                <div class="hidden lg:flex items-center justify-center transform lg:col-span-1 lg:row-start-2 lg:col-start-2">
+                    <div class="w-10 h-2 bg-primary-blue rounded-full rotate-90 lg:rotate-0"></div>
+                    <div class="w-0 h-0 border-t-4 border-b-4 border-t-transparent border-b-transparent border-l-[12px] border-l-primary-blue rotate-90 lg:rotate-0"></div>
+                </div>
+
+                <!-- Phase 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-primary-blue transition duration-300 hover:shadow-2xl lg:col-span-1 lg:col-start-3 lg:row-start-1">
+                    <p class="text-sm font-bold text-primary-blue mb-1">PHASE 3 (Month 4)</p>
+                    <h3 class="text-xl font-extrabold mb-3">Security & Compliance Enablement</h3>
+                    <ul class="space-y-2 text-gray-700 list-disc list-inside">
+                        <li>Activate integrated SAST, DAST, and Dependency Scanning.</li>
+                        <li>Automate compliance reports and auditing workflows.</li>
+                        <li>Decommission 100% of the legacy fragmented toolchain.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Quantifiable Results (Charts) -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 pt-4 border-b border-accent-blue pb-2 text-dark-blue">3. Quantifiable Results & Efficiency Gains</h2>
+            <p class="text-lg mb-8 text-gray-700 leading-relaxed">
+                The consolidation paid immediate dividends, primarily in speed and security posture. By reducing external network calls and centralizing pipeline execution, the average time from commit to deployment was nearly halved.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <!-- Chart 1: Pipeline Speed Comparison (Bar Chart) -->
+                <div class="bg-white p-6 rounded-xl shadow-xl flex flex-col">
+                    <h3 class="text-xl font-bold mb-4 text-dark-blue">Pipeline Build Time Reduction</h3>
+                    <p class="text-sm text-gray-600 mb-4">Comparison of average minutes required for a full application build.</p>
+                    <div class="chart-container">
+                        <canvas id="pipelineSpeedChart"></canvas>
+                    </div>
+                    <p class="text-sm font-medium mt-4 text-center text-primary-blue">Key Takeaway: The centralized runner management boosted performance by 45%.</p>
+                </div>
+
+                <!-- Chart 2: Security Vulnerability Trend (Line Chart) -->
+                <div class="bg-white p-6 rounded-xl shadow-xl flex flex-col">
+                    <h3 class="text-xl font-bold mb-4 text-dark-blue">Vulnerability Triage Trend (Post-Migration)</h3>
+                    <p class="text-sm text-gray-600 mb-4">Number of open P1/P2 vulnerabilities over the first 6 months.</p>
+                    <div class="chart-container">
+                        <canvas id="vulnerabilityTrendChart"></canvas>
+                    </div>
+                    <p class="text-sm font-medium mt-4 text-center text-primary-blue">Key Takeaway: Automated scanning and policy enforcement drove sustained reduction.</p>
+                </div>
+
+                <!-- Chart 3: Tool Consolidation (Donut Chart) spanning 2 columns on MD screens) -->
+                <div class="md:col-span-2 bg-white p-6 rounded-xl shadow-xl grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                    <div class="md:col-span-1 text-center">
+                        <h3 class="text-xl font-bold mb-4 text-dark-blue">Tool Consolidation Breakdown</h3>
+                        <p class="text-sm text-gray-600 mb-4">Percentage of required DevOps functionality now served by the single GitLab instance.</p>
+                    </div>
+                    <div class="chart-container md:col-span-1 h-[250px] max-h-[300px]">
+                        <canvas id="consolidationDonutChart"></canvas>
+                    </div>
+                    <div class="md:col-span-1 text-center">
+                        <p class="text-5xl font-extrabold text-primary-blue">80%</p>
+                        <p class="text-lg font-medium mt-2">Functional Coverage Achieved</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 5: Conclusion & Future Outlook -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 pt-4 border-b border-accent-blue pb-2 text-dark-blue">4. Conclusion: The Path to Digital Sovereignty</h2>
+            <p class="text-lg mb-8 text-gray-700 leading-relaxed">
+                The migration successfully centralized the entire DevOps lifecycle, moving sensitive data and processes to a fully controlled, on-premises environment. This delivered immediate financial savings from reduced licensing, dramatically improved security visibility, and accelerated developer workflow, enabling the organization to meet stringent internal compliance requirements.
+            </p>
+            <div class="bg-primary-blue/10 p-8 rounded-xl shadow-inner">
+                <h3 class="text-2xl font-bold mb-4 text-dark-blue flex items-center">
+                    <span class="text-primary-blue mr-3">&#9889;</span> Future Outlook
+                </h3>
+                <ul class="space-y-3 text-gray-800">
+                    <li class="flex items-start"><span class="mr-2 text-primary-blue font-extrabold text-xl">&#x2713;</span> Expand Auto-DevOps functionality to 100% of repositories for standardized configuration.</li>
+                    <li class="flex items-start"><span class="mr-2 text-primary-blue font-extrabold text-xl">&#x2713;</span> Integrate advanced monitoring and logging tools directly into the unified platform's workflows.</li>
+                    <li class="flex items-start"><span class="mr-2 text-primary-blue font-extrabold text-xl">&#x2713;</span> Leverage GitLab's DORA metrics to continuously optimize deployment frequency and change failure rate.</li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Data for charts
+        const pipelineData = {
+            labels: ['Pre-Migration Average', 'Post-Migration Average'],
+            datasets: [
+                {
+                    label: 'Avg Build Time (Minutes)',
+                    data: [11.5, 6.3],
+                    backgroundColor: ['#1A5276', '#2E86C1'],
+                    borderRadius: 8,
+                }
+            ]
+        };
+
+        const vulnerabilityData = {
+            labels: ['Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5', 'Month 6'],
+            datasets: [
+                {
+                    label: 'Open Vulnerabilities (P1/P2)',
+                    data: [135, 95, 60, 40, 25, 11],
+                    borderColor: '#2E86C1',
+                    backgroundColor: '#A9CCE350',
+                    tension: 0.4,
+                    fill: true,
+                }
+            ]
+        };
+
+        const consolidationData = {
+            labels: ['Consolidated Tools (GitLab)', 'Fragmented Tools Remaining'],
+            datasets: [
+                {
+                    data: [80, 20],
+                    backgroundColor: ['#2E86C1', '#D6EAF8'],
+                    hoverOffset: 4,
+                }
+            ]
+        };
+
+        // Utility function to wrap long labels (REQUIRED)
+        function wrapLabel(label, maxCharsPerLine = 16) {
+            if (label.length <= maxCharsPerLine) return label;
+
+            const words = label.split(' ');
+            let lines = [];
+            let currentLine = '';
+
+            words.forEach(word => {
+                if ((currentLine + ' ' + word).trim().length > maxCharsPerLine) {
+                    if (currentLine) {
+                        lines.push(currentLine);
+                    }
+                    currentLine = word;
+                } else {
+                    currentLine = currentLine ? currentLine + ' ' + word : word;
+                }
+            });
+
+            if (currentLine) {
+                lines.push(currentLine);
+            }
+            return lines;
+        }
+
+        // REQUIRED Tooltip Configuration for multi-line labels
+        const requiredTooltipConfig = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            } else {
+                              return label;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        // Chart Initialization
+        window.onload = function() {
+            // Chart 1: Pipeline Speed (Bar)
+            new Chart(document.getElementById('pipelineSpeedChart'), {
+                type: 'bar',
+                data: pipelineData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Minutes',
+                                color: '#1A5276'
+                            }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    },
+                    ...requiredTooltipConfig // Apply required tooltip configuration
+                }
+            });
+
+            // Chart 2: Vulnerability Trend (Line)
+            new Chart(document.getElementById('vulnerabilityTrendChart'), {
+                type: 'line',
+                data: vulnerabilityData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Count',
+                                color: '#1A5276'
+                            }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    },
+                    ...requiredTooltipConfig // Apply required tooltip configuration
+                }
+            });
+
+            // Chart 3: Tool Consolidation (Donut)
+            new Chart(document.getElementById('consolidationDonutChart'), {
+                type: 'doughnut',
+                data: consolidationData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#1A5276',
+                                padding: 20
+                            }
+                        },
+                        ...requiredTooltipConfig.plugins // Apply required tooltip configuration
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+</html>

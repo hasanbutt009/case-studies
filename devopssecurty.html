@@ -1,0 +1,325 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevSecOps Transformation Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        :root {
+            --color-primary: #007AFF;
+            --color-secondary: #00CFFF;
+            --color-light: #A8C5E7;
+            --color-dark: #1C2E4A;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+            color: var(--color-dark);
+        }
+        .text-primary { color: var(--color-primary); }
+        .bg-primary { background-color: var(--color-primary); }
+        .text-secondary { color: var(--color-secondary); }
+        .bg-secondary { background-color: var(--color-secondary); }
+        .bg-dark { background-color: var(--color-dark); }
+        .border-primary { border-color: var(--color-primary); }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container { height: 350px; }
+        }
+        .timeline-step {
+            position: relative;
+            padding-left: 2rem;
+            border-left: 2px solid var(--color-light);
+        }
+        .timeline-step::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            background-color: var(--color-primary);
+            border-radius: 50%;
+            border: 3px solid #fff;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+        
+        <!-- Header Section -->
+        <header class="text-center mb-12 py-8 bg-dark text-white rounded-xl shadow-2xl">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">The Shift Left Imperative</h1>
+            <p class="text-lg md:text-xl mt-2 text-secondary">DevSecOps Transformation: Integrating Security into the Delivery Pipeline</p>
+        </header>
+
+        <!-- Summary and Key Metrics -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-primary border-b pb-2 border-primary">Core Transformation Impact</h2>
+            <p class="mb-8 text-gray-600 leading-relaxed">
+                The adoption of DevSecOps principles has fundamentally changed how security is handled, moving from reactive gatekeeping to proactive integration. The shift focuses on injecting automated security checks early in the development lifecycle to reduce risk and accelerate delivery.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Metric Card 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-xl text-center">
+                    <p class="text-5xl font-extrabold text-primary">85%</p>
+                    <p class="text-lg font-medium mt-2">Security Automation Rate</p>
+                    <p class="text-sm text-gray-500 mt-1">Checks integrated into CI/CD.</p>
+                </div>
+
+                <!-- Metric Card 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-xl text-center">
+                    <p class="text-5xl font-extrabold text-primary">4.2h</p>
+                    <p class="text-lg font-medium mt-2">Mean Time to Remediate (MTTR)</p>
+                    <p class="text-sm text-gray-500 mt-1">35% reduction from baseline.</p>
+                </div>
+                
+                <!-- Metric Card 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-xl text-center">
+                    <p class="text-5xl font-extrabold text-primary">70%</p>
+                    <p class="text-lg font-medium mt-2">Findings Fixed in Development</p>
+                    <p class="text-sm text-gray-500 mt-1">Preventing production leaks.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Charts Section (Grid Layout) -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-primary border-b pb-2 border-primary">Key Data Visualizations</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Chart 1: Vulnerability Trend -->
+                <div class="bg-white p-6 rounded-lg shadow-xl flex flex-col">
+                    <h3 class="text-xl font-semibold mb-4">Vulnerability Trend Post-Adoption</h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        The line chart illustrates the decreasing volume of severe vulnerabilities detected in pre-production environments over the last four quarters (Q1-Q4), confirming the effectiveness of the shift-left strategy.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Security Tool Coverage -->
+                <div class="bg-white p-6 rounded-lg shadow-xl flex flex-col">
+                    <h3 class="text-xl font-semibold mb-4">Security Tool Coverage Distribution</h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        A breakdown of which security tools contribute to findings, showing the relative importance of Static Analysis Security Testing (SAST) and Dependency Scanning in the new pipeline.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="coverageChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 3: MTTR Breakdown (Span 2 columns on desktop) -->
+                <div class="bg-white p-6 rounded-lg shadow-xl flex flex-col lg:col-span-2">
+                    <h3 class="text-xl font-semibold mb-4">Mean Time to Remediate (MTTR) Breakdown</h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        This stacked bar chart shows the average time spent in each phase of remediation, highlighting that detection and triage (the "shift left" phases) are significantly faster than older, manual review and re-deployment phases.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="mttrChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- DevSecOps Pipeline Flow (Structured HTML/CSS) -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-8 text-primary border-b pb-2 border-primary">The DevSecOps Process Flow</h2>
+            <p class="mb-8 text-gray-600 leading-relaxed">
+                Security is embedded at every stage, turning the traditional linear process into a continuous security loop. Each step includes automated security gates.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- Step 1: Plan & Code -->
+                <div class="timeline-step bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <p class="text-lg font-bold text-primary mb-1">1. Plan & Code</p>
+                    <p class="text-xs font-semibold text-gray-500 mb-3">Pre-Commit & IDE</p>
+                    <p class="text-sm text-gray-700">Developers use **IDE Plugins** for live scanning (Secrets & SAST) to fix issues instantly.</p>
+                </div>
+
+                <!-- Step 2: Build & Test -->
+                <div class="timeline-step bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <p class="text-lg font-bold text-primary mb-1">2. Build & Test</p>
+                    <p class="text-xs font-semibold text-gray-500 mb-3">CI Pipeline</p>
+                    <p class="text-sm text-gray-700">**SAST, Dependency Scanning (SCA), and Infrastructure as Code (IaC) checks** run as mandatory build steps.</p>
+                </div>
+
+                <!-- Step 3: Deploy & Release -->
+                <div class="timeline-step bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <p class="text-lg font-bold text-primary mb-1">3. Deploy & Release</p>
+                    <p class="text-xs font-semibold text-gray-500 mb-3">CD Pipeline</p>
+                    <p class="text-sm text-gray-700">**DAST and Vulnerability Assessment** scans run in staging environments before final production promotion.</p>
+                </div>
+
+                <!-- Step 4: Monitor & Feedback -->
+                <div class="timeline-step bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <p class="text-lg font-bold text-primary mb-1">4. Monitor & Feedback</p>
+                    <p class="text-xs font-semibold text-gray-500 mb-3">Runtime Protection</p>
+                    <p class="text-sm text-gray-700">Continuous **Runtime Application Self-Protection (RASP)** monitors and feeds data back to the development team.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <footer class="text-center mt-12 py-6 border-t border-gray-300">
+            <p class="text-sm text-gray-500">
+                This infographic demonstrates the measurable benefits of a well-executed DevSecOps strategy. The focus on automation and early detection ensures security becomes an accelerator, not a bottleneck.
+            </p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const PRIMARY = 'rgb(0, 122, 255)';
+            const SECONDARY = 'rgb(0, 207, 255)';
+            const LIGHT = 'rgb(168, 197, 231)';
+            const DARK = 'rgb(28, 46, 74)';
+
+            const chartOptionsBase = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            font: { size: 14 }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: { ticks: { font: { size: 12 } } },
+                    y: { ticks: { font: { size: 12 } } }
+                }
+            };
+
+            const wrapLabel = (label) => {
+                if (label.length <= 16) return label;
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+
+                words.forEach(word => {
+                    if ((currentLine + ' ' + word).trim().length <= 16) {
+                        currentLine += (currentLine ? ' ' : '') + word;
+                    } else {
+                        if (currentLine) lines.push(currentLine);
+                        currentLine = word;
+                    }
+                });
+                if (currentLine) lines.push(currentLine);
+                return lines;
+            };
+
+            // 1. Vulnerability Trend Chart (Line)
+            const trendData = {
+                labels: ['Q1 Baseline', 'Q2 Integration', 'Q3 Optimization', 'Q4 Stabilization'],
+                datasets: [{
+                    label: 'Critical/High Findings',
+                    data: [120, 95, 45, 20],
+                    borderColor: PRIMARY,
+                    backgroundColor: 'rgba(0, 122, 255, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            };
+            new Chart(document.getElementById('trendChart'), {
+                type: 'line',
+                data: trendData,
+                options: {
+                    ...chartOptionsBase,
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'Number of Findings' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // 2. Security Tool Coverage Chart (Donut)
+            const coverageLabels = [
+                'SAST (Static Analysis)', 
+                'SCA (Dependency Scanning)', 
+                'DAST (Dynamic Analysis)', 
+                'Secrets Scanning', 
+                'IaC Scanning'
+            ].map(wrapLabel);
+            const coverageData = {
+                labels: coverageLabels,
+                datasets: [{
+                    data: [35, 30, 15, 10, 10],
+                    backgroundColor: [PRIMARY, SECONDARY, LIGHT, DARK, 'rgb(100, 149, 237)'],
+                    hoverOffset: 4
+                }]
+            };
+            new Chart(document.getElementById('coverageChart'), {
+                type: 'doughnut',
+                data: coverageData,
+                options: {
+                    ...chartOptionsBase
+                }
+            });
+            
+            // 3. MTTR Breakdown Chart (Stacked Bar)
+            const mttrData = {
+                labels: ['Vulnerability Class 1 (Auth)', 'Vulnerability Class 2 (Injection)', 'Vulnerability Class 3 (Misconfig)'],
+                datasets: [
+                    {
+                        label: 'Detection & Triage (Shift Left)',
+                        data: [1.5, 2.0, 1.0],
+                        backgroundColor: PRIMARY,
+                    },
+                    {
+                        label: 'Manual Review & Approval',
+                        data: [1.0, 0.5, 1.5],
+                        backgroundColor: SECONDARY,
+                    },
+                    {
+                        label: 'Re-Deployment & Verification',
+                        data: [1.7, 1.7, 1.7],
+                        backgroundColor: LIGHT,
+                    }
+                ]
+            };
+            new Chart(document.getElementById('mttrChart'), {
+                type: 'bar',
+                data: mttrData,
+                options: {
+                    ...chartOptionsBase,
+                    scales: {
+                        x: { stacked: true, grid: { display: false } },
+                        y: { stacked: true, title: { display: true, text: 'Time in Hours' } }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
