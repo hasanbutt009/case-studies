@@ -1,0 +1,413 @@
+<!-- PLAN SUMMARY: The infographic is structured into a narrative flow: 1. Introduction & Hook (Legacy Problem), 2. The Challenge (4 Major Pain Points), 3. The Solution (4-Pillar EKS Strategy), 4. The Outcome (Key Performance Metrics using charts), and 5. Conclusion. Visualization choices: Bar charts for comparison (KPIs), Donut charts for composition (Cost), and a process flow diagram using HTML/Tailwind (GitOps Pipeline). NO SVG. NO MERMAID JS. -->
+<!-- COLOR PALETTE: Brilliant Blues (#007BFF, #6c757d, #0056b3, #e9ecef, #f8f9fa) -->
+<!-- CRITICAL: Neither Mermaid JS nor SVG were used anywhere in this output. -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EKS Modernization Success Story: Performance & Reliability</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#007BFF',
+                        'secondary-gray': '#6c757d',
+                        'dark-blue': '#0056b3',
+                        'light-gray': '#e9ecef',
+                        'vibrant-bg': '#f8f9fa',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 450px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .flow-arrow {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 15px solid #007BFF;
+            margin: 0 auto;
+        }
+        .flow-node {
+            box-shadow: 0 4px 6px -1px rgba(0, 123, 255, 0.3), 0 2px 4px -2px rgba(0, 123, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-vibrant-bg text-gray-800 font-sans leading-relaxed">
+
+    <div class="min-h-screen container mx-auto p-4 md:p-8">
+
+        <!-- Header and Main Hook -->
+        <header class="text-center py-10 mb-10 bg-primary-blue rounded-xl shadow-2xl text-white">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-2">EKS Modernization Success Story</h1>
+            <p class="text-xl md:text-2xl font-light">Transforming Monolithic Fragility into Cloud-Native Elasticity</p>
+        </header>
+
+        <!-- Section 1: The Legacy Problem -->
+        <section id="legacy-problem" class="mb-12">
+            <h2 class="text-3xl font-bold text-center mb-6 text-dark-blue border-b-2 border-primary-blue pb-2">The Legacy Challenge: A Roadblock to Innovation</h2>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <p class="text-lg mb-4">Our client's core data center application suffered from critical limitations inherent in its aging **monolithic architecture**. Every scaling event or version rollout required manual effort, which directly slowed innovation and introduced unacceptable operational risk.</p>
+                    <p class="text-lg mb-4">The system lacked automated failover and granular visibility, making it difficult for DevOps and SRE teams to meet uptime and performance goals. We needed a fundamental shift in architecture.</p>
+                </div>
+                <!-- Stat Card: High Operational Overhead -->
+                <div class="flex flex-col justify-center items-center bg-light-gray rounded-lg p-6">
+                    <p class="text-5xl font-extrabold text-primary-blue">45 <span class="text-3xl text-secondary-gray">mins</span></p>
+                    <p class="text-lg text-center font-semibold mt-2">Previous Mean Time to Recovery (MTTR)</p>
+                    <p class="text-sm text-secondary-gray mt-1">(Manual diagnostics and rollbacks were standard)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Key Pain Points (Comparison Chart) -->
+        <section id="pain-points" class="mb-12">
+            <h2 class="text-3xl font-bold text-center mb-6 text-dark-blue border-b-2 border-primary-blue pb-2">4 Critical Pain Points</h2>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-10">
+                <p class="text-lg mb-6 text-center">These key metrics illustrate the operational friction caused by the monolithic architecture compared to modern, automated standards.</p>
+                <div class="chart-container">
+                    <canvas id="painPointsChart"></canvas>
+                </div>
+                <div class="mt-4 text-center text-sm text-secondary-gray">The chart visually compares the high costs in time and risk associated with the legacy system, driving the need for cloud-native adoption.</div>
+            </div>
+        </section>
+
+        <!-- Section 3: The EKS Modernization Strategy (Process Flow) -->
+        <section id="strategy" class="mb-12">
+            <h2 class="text-3xl font-bold text-center mb-6 text-dark-blue border-b-2 border-primary-blue pb-2">The EKS Solution: Four Pillars of Modernization</h2>
+            <p class="text-lg mb-8 text-center">The strategy moved beyond simple containerization, focusing on a full modernization of the software delivery and reliability model using EKS as the foundation.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Pillar 1: Elastic Scaling -->
+                <div class="bg-white rounded-xl shadow-xl p-5 text-center flow-node">
+                    <p class="text-4xl mb-3 text-primary-blue">⏱️</p>
+                    <h3 class="text-xl font-bold mb-2">1. Elastic Scaling</h3>
+                    <p class="text-sm">HPA & Cluster Autoscaler dynamically adjust pods and nodes based on CPU/memory metrics.</p>
+                </div>
+                <!-- Pillar 2: Traffic Control -->
+                <div class="bg-white rounded-xl shadow-xl p-5 text-center flow-node">
+                    <p class="text-4xl mb-3 text-primary-blue">🛣️</p>
+                    <h3 class="text-xl font-bold mb-2">2. Intelligent Traffic</h3>
+                    <p class="text-sm">AWS App Mesh used for service discovery, traffic splitting, and zero-downtime canary deployments.</p>
+                </div>
+                <!-- Pillar 3: GitOps Delivery -->
+                <div class="bg-white rounded-xl shadow-xl p-5 text-center flow-node">
+                    <p class="text-4xl mb-3 text-primary-blue">🤖</p>
+                    <h3 class="text-xl font-bold mb-2">3. GitOps Pipeline</h3>
+                    <p class="text-sm">Argo CD enforces state, making Git the single source of truth for infrastructure and application.</p>
+                </div>
+                <!-- Pillar 4: Security & Observability -->
+                <div class="bg-white rounded-xl shadow-xl p-5 text-center flow-node">
+                    <p class="text-4xl mb-3 text-primary-blue">👁️</p>
+                    <h3 class="text-xl font-bold mb-2">4. Integrated Observability</h3>
+                    <p class="text-sm">Prometheus, Grafana, and CloudWatch provide live metrics, tracing, and automated compliance checks.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Quantitative Results (Grid of Charts) -->
+        <section id="results" class="mb-12">
+            <h2 class="text-3xl font-bold text-center mb-6 text-dark-blue border-b-2 border-primary-blue pb-2">The Outcome: Measurable Performance Transformation</h2>
+            <p class="text-lg mb-8 text-center">The modernization effort yielded substantial, measurable improvements across all critical business metrics.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                <!-- Chart 1: Deployment Time (Bar Chart) -->
+                <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col">
+                    <h3 class="text-xl font-semibold mb-4 text-primary-blue">Deployment Time Reduction (94% Faster)</h3>
+                    <p class="text-sm text-secondary-gray mb-4">Moving from manual procedures to GitOps automation slashed the time required to push new code to production.</p>
+                    <div class="chart-container h-80">
+                        <canvas id="deploymentTimeChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 2: MTTR Improvement (Donut Chart) -->
+                <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col">
+                    <h3 class="text-xl font-semibold mb-4 text-primary-blue">Resilience & Recovery (70% Faster MTTR)</h3>
+                    <p class="text-sm text-secondary-gray mb-4">Integrated observability and self-healing features allow the platform to quickly identify and recover from failures.</p>
+                    <div class="chart-container h-80">
+                        <canvas id="mttrChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 3: Deployment Frequency (Radar Chart) -->
+                <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col">
+                    <h3 class="text-xl font-semibold mb-4 text-primary-blue">Velocity Increase (4x Faster Delivery)</h3>
+                    <p class="text-sm text-secondary-gray mb-4">The confidence provided by canary deployments and automated rollbacks led to a massive increase in delivery speed.</p>
+                    <div class="chart-container h-80">
+                        <canvas id="frequencyChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 4: Infrastructure Cost Structure (Stacked Bar Chart) -->
+                <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col">
+                    <h3 class="text-xl font-semibold mb-4 text-primary-blue">Cost Optimization (~35% Savings)</h3>
+                    <p class="text-sm text-secondary-gray mb-4">Elastic scaling eliminated wasted static capacity, resulting in significant infrastructure cost efficiencies.</p>
+                    <div class="chart-container h-80">
+                        <canvas id="costChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Conclusion and Key Takeaways -->
+        <section id="conclusion" class="mb-12">
+            <h2 class="text-3xl font-bold text-center mb-6 text-dark-blue border-b-2 border-primary-blue pb-2">Conclusion: Foundation for Future Growth</h2>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-10">
+                <p class="text-lg mb-6">The modernization effort proved that Amazon EKS, when paired with strategic tooling like AWS App Mesh and Argo CD, can be more than just a container orchestrator. It acts as a **foundation for intelligent, scalable, and secure application delivery.**</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="p-4 border-l-4 border-primary-blue bg-light-gray rounded-lg">
+                        <p class="text-2xl font-bold text-dark-blue">High Reliability</p>
+                        <p class="text-sm">Auto-recovery and deployment safeguards mean zero unplanned downtime.</p>
+                    </div>
+                    <div class="p-4 border-l-4 border-primary-blue bg-light-gray rounded-lg">
+                        <p class="text-2xl font-bold text-dark-blue">Optimized Cost</p>
+                        <p class="text-sm">Cluster Autoscaler ensures payment only for resources actively being used.</p>
+                    </div>
+                    <div class="p-4 border-l-4 border-primary-blue bg-light-gray rounded-lg">
+                        <p class="text-2xl font-bold text-dark-blue">Max Velocity</p>
+                        <p class="text-sm">4x faster releases accelerate feature time-to-market and competitive advantage.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center py-6 mt-10 text-secondary-gray text-sm border-t border-light-gray">
+            <p>&copy; 2025 EKS Modernization Infographic. Data synthesized from client case study.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const chartColors = ['#007BFF', '#6c757d', '#0056b3', '#e9ecef'];
+
+        function wrapLabels(labels) {
+            return labels.map(label => {
+                if (label.length <= 16) return label;
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+
+                for (const word of words) {
+                    if (currentLine.length + word.length + 1 > 16) {
+                        lines.push(currentLine.trim());
+                        currentLine = word + ' ';
+                    } else {
+                        currentLine += word + ' ';
+                    }
+                }
+                lines.push(currentLine.trim());
+                return lines;
+            });
+        }
+
+        const tooltipConfig = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            } else {
+                              return label;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        function createBarChart(canvasId, labelData, valueData, titleText) {
+            new Chart(document.getElementById(canvasId).getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: wrapLabels(labelData),
+                    datasets: [{
+                        label: 'Time (Minutes)',
+                        data: valueData,
+                        backgroundColor: [chartColors[0], chartColors[1], chartColors[2], chartColors[0]],
+                        borderColor: [chartColors[0], chartColors[1], chartColors[2], chartColors[0]],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'Time / Value' } },
+                        x: { ticks: { autoSkip: false } }
+                    },
+                    plugins: tooltipConfig.plugins,
+                    animation: { duration: 1500 }
+                }
+            });
+        }
+
+        function createPieChart(canvasId, labelData, valueData, titleText, type) {
+            new Chart(document.getElementById(canvasId).getContext('2d'), {
+                type: type,
+                data: {
+                    labels: wrapLabels(labelData),
+                    datasets: [{
+                        data: valueData,
+                        backgroundColor: chartColors.slice(0, valueData.length),
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: tooltipConfig.plugins,
+                    animation: { duration: 1500 }
+                }
+            });
+        }
+
+        function createRadarChart(canvasId, labelData, beforeData, afterData) {
+            new Chart(document.getElementById(canvasId).getContext('2d'), {
+                type: 'radar',
+                data: {
+                    labels: wrapLabels(labelData),
+                    datasets: [
+                        {
+                            label: 'Before EKS',
+                            data: beforeData,
+                            backgroundColor: 'rgba(108, 117, 125, 0.2)',
+                            borderColor: chartColors[1],
+                            pointBackgroundColor: chartColors[1],
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: chartColors[1]
+                        },
+                        {
+                            label: 'After EKS',
+                            data: afterData,
+                            backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                            borderColor: chartColors[0],
+                            pointBackgroundColor: chartColors[0],
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: chartColors[0]
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    elements: { line: { borderWidth: 3 } },
+                    plugins: tooltipConfig.plugins,
+                    animation: { duration: 1500 }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Chart 1: Pain Points (Bar Chart)
+            createBarChart('painPointsChart',
+                ['Deployment Time (Minutes)', 'Downtime (Minutes)', 'MTTR (Minutes)', 'Deployment Frequency (Per Week)'],
+                [150, 20, 45, 1],
+                'Legacy System Pain Points'
+            );
+
+            // Chart 2: Deployment Time Reduction (Bar Chart - Before vs After)
+            new Chart(document.getElementById('deploymentTimeChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Deployment Time'],
+                    datasets: [
+                        {
+                            label: 'Before (Minutes)',
+                            data: [150],
+                            backgroundColor: chartColors[1]
+                        },
+                        {
+                            label: 'After (Minutes)',
+                            data: [10],
+                            backgroundColor: chartColors[0]
+                        }
+                    ]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { beginAtZero: true, max: 160, title: { display: true, text: 'Time (Minutes)' } },
+                        y: { ticks: { autoSkip: false } }
+                    },
+                    plugins: tooltipConfig.plugins,
+                    animation: { duration: 1500 }
+                }
+            });
+
+            // Chart 3: MTTR Improvement (Donut Chart)
+            createPieChart('mttrChart',
+                ['Recovery Time Reduction (70%)', 'Time to Automate (30%)'],
+                [70, 30],
+                'MTTR Improvement (70% Faster)',
+                'doughnut'
+            );
+
+            // Chart 4: Deployment Frequency (Radar Chart)
+            createRadarChart('frequencyChart',
+                ['Deployment Speed', 'Rollback Capability', 'Auditability', 'Reliability'],
+                [1, 1, 3, 2],
+                [4, 5, 5, 5]
+            );
+
+            // Chart 5: Cost Optimization (Stacked Bar Chart)
+            new Chart(document.getElementById('costChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Infrastructure Cost Profile'],
+                    datasets: [
+                        {
+                            label: 'Optimized Capacity (35% Savings)',
+                            data: [35],
+                            backgroundColor: chartColors[0]
+                        },
+                        {
+                            label: 'Remaining Dynamic Cost (65%)',
+                            data: [65],
+                            backgroundColor: chartColors[1]
+                        }
+                    ]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true, beginAtZero: true, max: 100, title: { display: true, text: 'Percentage of Original Cost' } },
+                        y: { stacked: true, ticks: { autoSkip: false } }
+                    },
+                    plugins: tooltipConfig.plugins,
+                    animation: { duration: 1500 }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
