@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Content Platform Infographics</title>
+    <!-- Load Tailwind CSS for styling and responsiveness -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* Define a default font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom styles for SVG charts */
+        .bar-compare-svg, .line-latency-svg {
+            width: 100%;
+        }
+        .bar-compare-svg { height: 220px; }
+        .line-latency-svg { height: 200px; }
+    </style>
+</head>
+<body>
+
+<!-- The main content converted from the React component -->
+<div class="w-full min-h-screen bg-gradient-to-b from-white to-slate-50 text-slate-900 px-6 py-10">
+
+    <!-- Hero Section -->
+    <section class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+        <div class="max-w-2xl">
+            <div class="mb-2 inline-block bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1 rounded shadow-sm">Case Study</div>
+            <h1 class="text-3xl md:text-4xl font-bold leading-tight">Scalable AI‑Powered Content Platform</h1>
+            <p class="mt-3 text-slate-600">
+                Logos, short reels, and marketing collateral in seconds. Hybrid managed + open‑source stack achieves an ~80% per‑job cost reduction while keeping latency under 180 seconds.
+            </p>
+            <div class="mt-4 grid grid-cols-2 gap-3 text-sm text-slate-700">
+                <div>• 4:1 cost/quality improvement</div>
+                <div>• 99.9% uptime target</div>
+                <div>• Agentic routing via LangGraph</div>
+                <div>• Observability with LangSmith</div>
+            </div>
+        </div>
+
+        <!-- Cost Comparison Chart Card (BarCompare) -->
+        <div class="bg-white p-5 rounded-xl shadow-lg w-full md:w-[480px] border border-slate-100">
+            <h3 class="font-semibold text-base mb-2">Cost vs Approach</h3>
+            
+            <div class="border rounded p-2 bg-slate-50">
+                <svg viewBox="0 0 420 220" class="bar-compare-svg w-full h-56">
+                    <!-- Dimensions: W=420, H=220. Pad=32. InnerW=356, InnerH=156. MaxV=0.54 -->
+                    
+                    <!-- Grid (Y-axis lines) -->
+                    <g stroke="#e5e7eb" stroke-dasharray="3 3">
+                        <!-- Y=32 -->
+                        <line x1="32" x2="388" y1="32" y2="32" />
+                        <!-- Y=84 -->
+                        <line x1="32" x2="388" y1="84" y2="84" />
+                        <!-- Y=136 -->
+                        <line x1="32" x2="388" y1="136" y2="136" />
+                        <!-- Y=188 -->
+                        <line x1="32" x2="388" y1="188" y2="188" />
+                    </g>
+                    
+                    <!-- Bar 1: Managed-only ($0.45) -->
+                    <g>
+                        <rect x="32" y="32" width="296.67" height="67" rx="6" ry="6" fill="#0f172a" />
+                        <text x="32" y="26" font-size="11" fill="#0f172a">Managed‑only</text>
+                        <text x="334.67" y="65.5" font-size="11" fill="#475569">$0.45</text>
+                    </g>
+                    
+                    <!-- Bar 2: Hybrid (this) ($0.10) -->
+                    <g>
+                        <rect x="32" y="110" width="65.93" height="67" rx="6" ry="6" fill="#0f172a" />
+                        <text x="32" y="104" font-size="11" fill="#0f172a">Hybrid (this)</text>
+                        <text x="103.93" y="143.5" font-size="11" fill="#475569">$0.10</text>
+                    </g>
+                </svg>
+            </div>
+            
+            <p class="text-xs text-slate-500 mt-2">Illustrative average cost per reel: Managed‑only vs Hybrid.</p>
+        </div>
+    </section>
+
+    <!-- KPI Grid -->
+    <section class="max-w-7xl mx-auto mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <!-- KPI 1 -->
+        <div class="bg-white p-5 rounded-xl shadow text-center border-t-4 border-blue-600">
+            <p class="text-xs text-slate-500">Per‑reel cost</p>
+            <div class="text-2xl font-bold mt-1">$0.05–$0.15</div>
+            <p class="text-xs text-slate-500 mt-1">Image‑sequence default</p>
+        </div>
+        <!-- KPI 2 -->
+        <div class="bg-white p-5 rounded-xl shadow text-center border-t-4 border-blue-600">
+            <p class="text-xs text-slate-500">End‑to‑end latency</p>
+            <div class="text-2xl font-bold mt-1">≤ 180s</div>
+            <p class="text-xs text-slate-500 mt-1">Typical 60–180s</p>
+        </div>
+        <!-- KPI 3 -->
+        <div class="bg-white p-5 rounded-xl shadow text-center border-t-4 border-blue-600">
+            <p class="text-xs text-slate-500">Job failure rate</p>
+            <div class="text-2xl font-bold mt-1">&lt; 2%</div>
+            <p class="text-xs text-slate-500 mt-1">Temporal retries</p>
+        </div>
+        <!-- KPI 4 -->
+        <div class="bg-white p-5 rounded-xl shadow text-center border-t-4 border-blue-600">
+            <p class="text-xs text-slate-500">First‑pass quality</p>
+            <div class="text-2xl font-bold mt-1">90%</div>
+            <p class="text-xs text-slate-500 mt-1">QA integration</p>
+        </div>
+    </section>
+
+    <!-- Architecture & Infra -->
+    <section class="max-w-7xl mx-auto mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Unified Architecture Card (StackCard items) -->
+        <div class="bg-white p-5 rounded-xl shadow-lg lg:col-span-2 border border-slate-100">
+            <h3 class="font-semibold text-base mb-3">Hybrid Architecture</h3>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                <div class="bg-white p-5 rounded shadow">
+                    <div class="font-medium">Temporal</div>
+                    <p class="mt-1 text-sm text-slate-600">Durable workflows, retries, timeouts, resumability</p>
+                </div>
+                <div class="bg-white p-5 rounded shadow">
+                    <div class="font-medium">FastAPI (Python)</div>
+                    <p class="mt-1 text-sm text-slate-600">API gateway, validation, workflow kickoff</p>
+                </div>
+                <div class="bg-white p-5 rounded shadow">
+                    <div class="font-medium">LangGraph / LangChain</div>
+                    <p class="mt-1 text-sm text-slate-600">Agentic decisions, cost‑aware routing</p>
+                </div>
+                <div class="bg-white p-5 rounded shadow">
+                    <div class="font-medium">Kubernetes + KEDA</div>
+                    <p class="mt-1 text-sm text-slate-600">CPU/GPU autoscaling by queue depth</p>
+                </div>
+                <div class="bg-white p-5 rounded shadow">
+                    <div class="font-medium">vLLM (Llama‑3.1)</div>
+                    <p class="mt-1 text-sm text-slate-600">Low‑cost drafts; open‑source serving</p>
+                </div>
+                <div class="bg-white p-5 rounded shadow">
+                    <div class="font-medium">GPT‑4o‑mini</div>
+                    <p class="mt-1 text-sm text-slate-600">Premium polish path for tricky prompts</p>
+                </div>
+                <div class="bg-white p-5 rounded shadow">
+                    <div class="font-medium">SDXL / FLUX.1</div>
+                    <p class="mt-1 text-sm text-slate-600">Keyframes, logos, assets; ControlNet & ESRGAN</p>
+                </div>
+                <div class="bg-white p-5 rounded shadow">
+                    <div class="font-medium">Stable Video Diffusion</div>
+                    <p class="mt-1 text-sm text-slate-600">Direct T2V clips for hero shots</p>
+                </div>
+                <div class="bg-white p-5 rounded shadow">
+                    <div class="font-medium">ElevenLabs / XTTS v2</div>
+                    <p class="mt-1 text-sm text-slate-600">Narration (managed → self‑hosted at volume)</p>
+                </div>
+                <div class="bg-white p-5 rounded shadow">
+                    <div class="font-medium">ffmpeg</div>
+                    <p class="mt-1 text-sm text-slate-600">Compositing, captions, transitions, renditions</p>
+                </div>
+                <div class="bg-white p-5 rounded shadow">
+                    <div class="font-medium">Postgres + Redis</div>
+                    <p class="mt-1 text-sm text-slate-600">Jobs/artifacts + cache/rate‑limits</p>
+                </div>
+                <div class="bg-white p-5 rounded shadow">
+                    <div class="font-medium">Prom/Grafana + Sentry + OTel + LangSmith</div>
+                    <p class="mt-1 text-sm text-slate-600">Observability & agent tracing</p>
+                </div>
+            </div>
+            <div class="mt-4 text-xs text-slate-500">
+                * Temporal coordinates workers; FastAPI serves; LangGraph agents choose routes; K8s scales CPU/GPU nodes; vLLM + SDXL/FLUX self‑hosted, GPT‑4o‑mini and ElevenLabs as premium paths.
+            </div>
+        </div>
+
+        <!-- Latency Trend Card (LineLatency) -->
+        <div class="bg-white p-5 rounded-xl shadow-lg border border-slate-100">
+            <h3 class="font-semibold text-base mb-3">Latency Trend</h3>
+            
+            <div class="border rounded p-2 bg-slate-50">
+                <svg viewBox="0 0 420 200" class="line-latency-svg w-full h-48">
+                    <!-- Dimensions: W=420, H=200. Pad=24. InnerW=372, InnerH=152. YMin=120, YMax=180 -->
+                    
+                    <!-- Grid -->
+                    <g stroke="#e5e7eb" stroke-dasharray="3 3">
+                        <line x1="24" x2="396" y1="24" y2="24" />
+                        <line x1="24" x2="396" y1="74.67" y2="74.67" />
+                        <line x1="24" x2="396" y1="125.33" y2="125.33" />
+                        <line x1="24" x2="396" y1="176" y2="176" />
+                    </g>
+                    
+                    <!-- Line Path (Points: 170s, 155s, 162s, 148s, 141s) -->
+                    <path d="M24,49.33 L117,87.33 L210,69.6 L303,105.07 L396,122.8" fill="none" stroke="#0f172a" stroke-width="2" />
+                    
+                    <!-- X Labels -->
+                    <g fill="#64748b" font-size="10">
+                        <text x="24" y="194" text-anchor="middle">B1</text>
+                        <text x="117" y="194" text-anchor="middle">B2</text>
+                        <text x="210" y="194" text-anchor="middle">B3</text>
+                        <text x="303" y="194" text-anchor="middle">B4</text>
+                        <text x="396" y="194" text-anchor="middle">B5</text>
+                    </g>
+                </svg>
+            </div>
+            
+            <p class="mt-2 text-sm text-slate-600">Typical end‑to‑end latency within 60–180 seconds across batches.</p>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="max-w-7xl mx-auto mt-10">
+        <div class="flex items-center gap-2 mb-3">
+            <span class="inline-block border px-2 py-1 rounded text-xs">Key Capabilities</span>
+            <span class="text-sm text-slate-600">Orchestration • Cost routing • Scale • Quality</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- ListCard 1 -->
+            <div class="bg-white p-5 rounded shadow">
+                <h3 class="font-semibold mb-2">Multi‑modal orchestration</h3>
+                <ul class="text-sm text-slate-600 list-disc pl-5 space-y-1">
+                    <li>LLM → Image/Video → TTS → Composite</li>
+                    <li>Deterministic JSON schemas (Pydantic)</li>
+                    <li>Auto retries & human‑in‑loop when needed</li>
+                </ul>
+            </div>
+            <!-- ListCard 2 -->
+            <div class="bg-white p-5 rounded shadow">
+                <h3 class="font-semibold mb-2">Cost‑aware routing</h3>
+                <ul class="text-sm text-slate-600 list-disc pl-5 space-y-1">
+                    <li>Token/GPU/API credit logging</li>
+                    <li>A/B model selection per step</li>
+                    <li>Default 60–90% to low‑cost path</li>
+                </ul>
+            </div>
+            <!-- ListCard 3 -->
+            <div class="bg-white p-5 rounded shadow">
+                <h3 class="font-semibold mb-2">Scalable infrastructure</h3>
+                <ul class="text-sm text-slate-600 list-disc pl-5 space-y-1">
+                    <li>EKS/GKE with separate CPU/GPU nodes</li>
+                    <li>KEDA autoscaling on queue depth</li>
+                    <li>99.9% uptime target</li>
+                </ul>
+            </div>
+            <!-- ListCard 4 -->
+            <div class="bg-white p-5 rounded shadow">
+                <h3 class="font-semibold mb-2">Quality & compliance</h3>
+                <ul class="text-sm text-slate-600 list-disc pl-5 space-y-1">
+                    <li>LangSmith evaluations & traces</li>
+                    <li>Caption burn‑ins, watermarks</li>
+                    <li>Content policy filters</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Routing Share & Timeline -->
+    <section class="max-w-7xl mx-auto mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Strategy Timeline Card -->
+        <div class="bg-white p-5 rounded-xl shadow-lg lg:col-span-2 border border-slate-100">
+            <h3 class="font-semibold mb-3">Strategy Timeline</h3>
+            <div class="relative">
+                <div class="absolute left-3 top-0 bottom-0 w-px bg-slate-200" />
+                <ul class="space-y-6">
+                    <!-- Step 1 -->
+                    <li class="relative pl-10">
+                        <div class="absolute left-0 top-0 h-6 w-6 rounded-full bg-slate-100 text-slate-800 grid place-items-center text-xs font-semibold">1</div>
+                        <div class="font-medium">Problem</div>
+                        <p class="text-sm text-slate-600">Make premium assets accessible to non‑technical users</p>
+                    </li>
+                    <!-- Step 2 -->
+                    <li class="relative pl-10">
+                        <div class="absolute left-0 top-0 h-6 w-6 rounded-full bg-slate-100 text-slate-800 grid place-items-center text-xs font-semibold">2</div>
+                        <div class="font-medium">Strategy</div>
+                        <p class="text-sm text-slate-600">Hybrid stack + intelligent routing for 4:1 cost/quality</p>
+                    </li>
+                    <!-- Step 3 -->
+                    <li class="relative pl-10">
+                        <div class="absolute left-0 top-0 h-6 w-6 rounded-full bg-slate-100 text-slate-800 grid place-items-center text-xs font-semibold">3</div>
+                        <div class="font-medium">Implementation</div>
+                        <p class="text-sm text-slate-600">Temporal workflows, modular workers, K8s autoscaling</p>
+                    </li>
+                    <!-- Step 4 -->
+                    <li class="relative pl-10">
+                        <div class="absolute left-0 top-0 h-6 w-6 rounded-full bg-slate-100 text-slate-800 grid place-items-center text-xs font-semibold">4</div>
+                        <div class="font-medium">Outcomes</div>
+                        <p class="text-sm text-slate-600">≤$0.15 reels, &lt;2% failures, ≤180s latency, 10× productivity</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Routing Share Card (RingShare) -->
+        <div class="bg-white p-5 rounded-xl shadow-lg border border-slate-100">
+            <h3 class="font-semibold mb-3">Default Routing Share</h3>
+            <div class="grid grid-cols-2 gap-4 items-center">
+                <!-- Ring 1: 70% Image-sequence -->
+                <div>
+                    <svg width="120" height="120" viewBox="0 0 120 120" class="mx-auto">
+                        <circle cx="60" cy="60" r="54" fill="none" stroke="#e5e7eb" stroke-width="12" />
+                        <circle cx="60" cy="60" r="54" fill="none" stroke="#0f172a" stroke-width="12" stroke-dasharray="237.5 339.29" stroke-linecap="round" transform="rotate(-90 60 60)" />
+                        <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" class="text-lg font-semibold fill-slate-900">70%</text>
+                        <text x="50%" y="112" text-anchor="middle" class="text-xs fill-slate-500">Image‑sequence</text>
+                    </svg>
+                </div>
+                <!-- Ring 2: 30% Text-to-Video -->
+                <div>
+                    <svg width="120" height="120" viewBox="0 0 120 120" class="mx-auto">
+                        <circle cx="60" cy="60" r="54" fill="none" stroke="#e5e7eb" stroke-width="12" />
+                        <circle cx="60" cy="60" r="54" fill="none" stroke="#0f172a" stroke-width="12" stroke-dasharray="101.79 339.29" stroke-linecap="round" transform="rotate(-90 60 60)" />
+                        <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" class="text-lg font-semibold fill-slate-900">30%</text>
+                        <text x="50%" y="112" text-anchor="middle" class="text-xs fill-slate-500">Text‑to‑Video</text>
+                    </svg>
+                </div>
+            </div>
+            <p class="mt-2 text-sm text-slate-600">Costs favored by routing ~60–90% of jobs to image‑sequence, reserving T2V for high‑impact scenes.</p>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="max-w-7xl mx-auto mt-10 mb-12">
+        <div class="bg-white p-5 rounded-xl shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-slate-100">
+            <div>
+                <div class="text-lg font-semibold">Outcomes: Premium at Scale, Predictable Cost</div>
+                <p class="text-sm text-slate-600 mt-1 max-w-2xl">
+                    ≤$0.15 per reel, ≤180s latency, &lt;2% failures, 10× productivity. A hybrid stack that balances open‑source efficiency with premium quality where it matters most.
+                </p>
+            </div>
+            <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-xl shadow-md transition duration-300 transform hover:scale-105">Discuss a Similar Build</button>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>
